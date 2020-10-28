@@ -3,7 +3,7 @@ package model
 class Board {
 
   def create_Board () = {
-    val play_board: Vector[Vector[Int]] = Vector(Vector(0,0,0,0,0,0,0,0), List(0,0,0,0,0,0,0,0), List(0,0,0,0,0,0,0,0))
+    val play_board: Vector[Vector[Int]] = Vector(Vector(0,0,0,0,0,0,0,0), Vector(0,0,0,0,0,0,0,0), Vector(0,0,0,0,0,0,0,0))
     play_board
   }
 

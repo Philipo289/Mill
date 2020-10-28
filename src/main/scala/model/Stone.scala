@@ -1,8 +1,7 @@
 package model
 
-class Stone(position: Vector[Int], color: Int) {
-  def create_stone(position: Vector[Int], color: Int): Unit ={
-    val stone_position = position
+class Stone() {
+  def create_stone(color: Int): Unit ={
     val stone_color = color
   }
 }
