@@ -1,5 +1,5 @@
 package model
 
-class FirstSpec {
+class BoardSpec {
 
 }
