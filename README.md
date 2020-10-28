@@ -2,8 +2,8 @@
 
 
 /******************************* 
- *         Game setup
- ******************************/
+*         Game setup
+*******************************/
  
  1. The game is played with 2 players (only).
  2. The board consists of 24 'Points', where the stones ca be placed.
@@ -11,7 +11,7 @@
  
  /******************************* 
  *         How to play
- ******************************/
+ *******************************/
  
  1. The Players set their stones alternating on one of the 'Points' until every stone is on the board
  2. The game is played by moving one stone each round per player and try to set a 'Mill' (3 Stones in a row)
