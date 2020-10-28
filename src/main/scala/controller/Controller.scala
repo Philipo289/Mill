@@ -22,4 +22,6 @@ class Controller {
   //def remove_stone()
 
   //def select_stone()
+
+  //def end_of_game()
 }

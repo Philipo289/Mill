@@ -1,11 +1,13 @@
 package model
 
 class Board {
-  val square_names = (1 to 3)
 
   def create_Board () = {
-    val index_list = (0 to 7)
-    val play_board = square_names.map(n => (n, index_list.map(n => n)))
+    val play_board: Vector[Vector[Int]] = Vector(Vector(0,0,0,0,0,0,0,0), List(0,0,0,0,0,0,0,0), List(0,0,0,0,0,0,0,0))
     play_board
+  }
+
+  def update_board(rectangle_num: Int, position_num:Int, color:Int): Unit ={
+
   }
 }
