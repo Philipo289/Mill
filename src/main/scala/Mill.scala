@@ -15,7 +15,8 @@ object Mill {
 
     tui.welcomeScreen()
 
-    tui.drawInitialBoard()
+    val test = Vector(Vector(0,0,0,0,0,0,0,0), Vector(0,0,0,0,0,0,0,0), Vector(0,0,0,0,0,0,0,0))
+    tui.updateBoard(test)
 
     do{
       input = readLine()
