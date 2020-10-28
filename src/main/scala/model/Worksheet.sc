@@ -87,9 +87,8 @@ val test_board = new_board.create_Board()
 val board_1 = new_board.create_Board()
 
 
+test_board.updated(1, test_board(1).updated(1, 40))
+test_board.updated(0, test_board(0).updated(0, 40))
 
-
-
-)
 
 
