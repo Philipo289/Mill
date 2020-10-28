@@ -1,13 +1,28 @@
-import model.Board
+import model.{Board, Player}
+import view.Tui
 
-object mill {
+import scala.io.StdIn.readLine
+
+object Mill {
 
   val color = ("black", "white")
 
+  val tui = new Tui
+
   def main(args: Array[String]) = {
 
-    println("Hello, world")
-    /*println("Play 1 Name:")
+    var input: String = ""
+
+    tui.welcomeScreen()
+
+    do{
+      input = readLine()
+    } while(input != "q")
+
+    tui.goodbyeScreen()
+
+    /*println("Hello, world")
+    println("Play 1 Name:")
       val player_1 = new Player
       val player_code_1 = 1
       // Read a line from the console window.
