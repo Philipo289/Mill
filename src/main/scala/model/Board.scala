@@ -7,7 +7,8 @@ class Board {
     play_board
   }
 
-  def update_board(rectangle_num: Int, position_num:Int, color:Int): Unit ={
+  def update_board(rectangle_num: Int, position_num:Int, color:Int, play_board: Vector[Vector[Int]]): Unit ={
+    val board = play_board(rectangle_num).patch(position_num, Seq(color), 1)
 
   }
 }
