@@ -1,5 +1,4 @@
 import com.sun.org.apache.xml.internal.utils.StringToIntTable
-
 import scala.math.Numeric.BigDecimalAsIfIntegral.mkNumericOps
 
 
@@ -46,21 +45,16 @@ class Player {
 
 class Stones (position: Vector[Int], color: Int) {
 
-
-
-
 }
 
 class Controller {
-  def check_possible_moves(postion: Vector[Int], color: Int)
+  //def check_possible_moves(postion: Vector[Int], color: Int)
 
-  def show_possible_moves()
+  //def show_possible_moves()
 
-  def move_stone()
+  //def move_stone()
 
-  def select_stone()
-
-
+  //def select_stone()
 }
 
 val square_names = (1 to 3)
