@@ -15,6 +15,8 @@ object Mill {
 
     tui.welcomeScreen()
 
+    tui.drawInitialBoard()
+
     do{
       input = readLine()
     } while(input != "q")
