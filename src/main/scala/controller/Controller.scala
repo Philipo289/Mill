@@ -13,11 +13,13 @@ class Controller {
     }
   }
 
-  //def check_possible_moves(postion: Vector[Int], color: Int)
+  //def check_possible_moves(position: Vector[Int], color: Int)
 
   //def show_possible_moves()
 
   //def move_stone()
+
+  //def remove_stone()
 
   //def select_stone()
 }

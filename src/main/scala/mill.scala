@@ -1,13 +1,13 @@
-package model
+import model.Board
 
 object mill {
 
-    val color = ("black", "white")
+  val color = ("black", "white")
 
-    def main(args: Array[String]) = {
+  def main(args: Array[String]) = {
 
-      println("Hello, world")
-      /*println("Play 1 Name:")
+    println("Hello, world")
+    /*println("Play 1 Name:")
       val player_1 = new Player
       val player_code_1 = 1
       // Read a line from the console window.
@@ -28,5 +28,5 @@ object mill {
       val play_board = new Board
       play_board.create_Board()
       println(play_board)*/
-    }
+  }
 }

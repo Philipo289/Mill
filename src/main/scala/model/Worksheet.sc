@@ -48,7 +48,7 @@ class Stones (position: Vector[Int], color: Int) {
 }
 
 class Controller {
-  //def check_possible_moves(postion: Vector[Int], color: Int)
+  //def check_possible_moves(position: Vector[Int], color: Int)
 
   //def show_possible_moves()
 
