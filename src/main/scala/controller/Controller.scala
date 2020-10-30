@@ -1,6 +1,18 @@
 package controller
 
+import model.{Board, Player}
+
 class Controller {
+
+  def create_new_Board(): Vector[Vector[Int]] = {
+    val board = new Board
+    board.create_Board()
+  }
+  def create_new_Player(name: String, color: Int, code: Int) : String = {
+    val player = new Player
+    player.create_player(name, color, code)
+    name + color.toString + code.toString;
+  }
 
   def check_color(color: Int): String ={
     if (color == 1){

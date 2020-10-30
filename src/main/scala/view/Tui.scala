@@ -1,7 +1,19 @@
 package view
 
-class Tui {
+import controller.Controller
 
+class Tui(controller: Controller) {
+
+  def processInputLine(input: String): Unit = {
+    input match {
+      case "q" =>
+      case "h" => helpBoard()
+      case "n" =>
+        updateBoard(controller.create_new_Board())
+      case _ =>
+
+    }
+  }
   def welcomeScreen(): Unit ={
     println("**********************************************************************************************"  )
     println("*                                       WELCOME TO                                           *"  )
@@ -13,7 +25,7 @@ class Tui {
     println("*     |__|     |__|   |__| |________|    |__|           |__|  |__|  |_________|  |_________| *"  )
     println("*                                        IN SCALA                                            *"  )
     println("**********************************************************************************************"  )
-    println("Press 'n' for new Game or 'q' to quit"                                                           )
+    println("Press 'n' for new Game\nPress 'h' for help\nPress 'q' to quit"                                                           )
   }
 
   def color_matcher(in:Int):String = {
@@ -48,6 +60,29 @@ class Tui {
     println("               |                            |                            |")
     println("               |                            |                            |")
     println(s"               ${uiBoard(0)(6)}----------------------------${uiBoard(0)(5)}----------------------------${uiBoard(0)(4)}" )
+  }
+  def helpBoard(): Unit ={
+    println("To access the Nodes see the following coordinates:\n")
+    println("               O----------------------------O----------------------------O" )
+    println("               | (00)                       | (01)                  (02) |")
+    println("               |                            |                            |")
+    println("               |          O-----------------O-----------------O          |")
+    println("               |          | (10)            | (11)       (12) |          |")
+    println("               |          |            (21) |                 |          |")
+    println("               |          |         O-------O-------O         |          |")
+    println("               |          |         | (20)     (22) |         |          |")
+    println("               |          |         |               |         |          |")
+    println("               O----------O---------O (27)     (23) O---------O----------O")
+    println("               | (07)     | (17)    |               |    (13) |     (03) |")
+    println("               |          |         | (26)     (24) |         |          |")
+    println("               |          |         O-------O-------O         |          |")
+    println("               |          |            (25) |                 |          |")
+    println("               |          | (16)            | (15)       (14) |          |")
+    println("               |          O-----------------O-----------------O          |")
+    println("               |                            |                            |")
+    println("               | (06)                       | (05)                  (04) |")
+    println("               O----------------------------O----------------------------O")
+
   }
 
   def goodbyeScreen(): Unit ={

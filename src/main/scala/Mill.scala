@@ -1,25 +1,24 @@
 import model.{Board, Player}
+
+import controller.Controller
 import view.Tui
 
 import scala.io.StdIn.readLine
 
 object Mill {
 
-  val color = ("black", "white")
-
-  val tui = new Tui
+  //val color = ("black", "white")
+  val controller = new Controller
+  val tui = new Tui(controller)
 
   def main(args: Array[String]) = {
 
     var input: String = ""
-
     tui.welcomeScreen()
-
-    val test = Vector(Vector(0,0,0,0,0,0,0,0), Vector(0,0,0,0,0,0,0,0), Vector(0,0,0,0,0,0,0,0))
-    tui.updateBoard(test)
 
     do{
       input = readLine()
+      tui.processInputLine(input)
     } while(input != "q")
 
     tui.goodbyeScreen()
