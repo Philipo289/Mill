@@ -1,7 +1,5 @@
 package model
 
-class Stone() {
-  def create_stone(color: Int): Unit ={
-    val stone_color = color
-  }
+case class Stone(val color: Int) {
+  def isSet: Boolean = color != 0
 }

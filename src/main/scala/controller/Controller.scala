@@ -2,17 +2,21 @@ package controller
 
 import model.{Board, Player}
 
-class Controller {
+class Controller(var board: Board) {
 
-  def create_new_Board(): Vector[Vector[Int]] = {
-    val board = new Board
-    board.create_Board()
+  def create_empty_Board(): Unit = {
+    board = new Board(24)}
+
+  def set(rect_num: Int, pos_num: Int, value: Int): Unit = {
+    board = board.update_board(rect_num, pos_num, value)
+    println(board)
   }
-  def create_new_Player(name: String, color: Int, code: Int) : String = {
-    val player = new Player
-    player.create_player(name, color, code)
-    name + color.toString + code.toString;
+
+  def create_new_Player() : Unit = {
+    val player1 = new Player("Sebastian", 1, 1)
+    val player2 = new Player("Soraya", 2, 2)
   }
+
 
   def check_color(color: Int): String ={
     if (color == 1){

@@ -8,7 +8,8 @@ import scala.io.StdIn.readLine
 object Mill {
 
   //val color = ("black", "white")
-  val controller = new Controller
+
+  val controller = new Controller(new Board(24))
   val tui = new Tui(controller)
 
   def main(args: Array[String]) = {
