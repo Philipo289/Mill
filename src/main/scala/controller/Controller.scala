@@ -13,8 +13,6 @@ class Controller(var board: Board) {
   }
 
   def create_new_Player() : Unit = {
-    val player1 = new Player("Sebastian", 1, 1)
-    val player2 = new Player("Soraya", 2, 2)
   }
 
 
