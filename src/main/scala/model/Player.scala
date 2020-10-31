@@ -1,9 +1,11 @@
 package model
 
-case class Player() {
-  def create_player(name: String, color_int: Int, player_code: Int): Unit ={
+case class Player(name: String, color:Int) {
+
+  def create_player(): Player ={
     val name_player = name
-    val color_player = color_int
-    val code_player = player_code
+    val color_player = color
+    val player = new Player(name_player, color_player)
+    player
   }
 }
