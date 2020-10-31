@@ -16,12 +16,16 @@ class Controller {
 
   def check_color(color: Int): String ={
     if (color == 1){
-      val color_str = "white"
-      color_str
+      val color_str_wh = "white"
+      return color_str_wh
+    }
+    if (color == 2){
+      val color_str_bl = "black"
+      return color_str_bl
     }
     else{
-      val color_str = "black"
-      color_str
+      val color_str_in = "Invalid color value!"
+      return color_str_in
     }
   }
 
