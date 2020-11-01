@@ -15,7 +15,6 @@ class Controller(var board: Board) {
   def create_new_Player() : Unit = {
   }
 
-
   def check_color(color: Int): String ={
     if (color == 1){
       val color_str = "white"

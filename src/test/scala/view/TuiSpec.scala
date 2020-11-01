@@ -13,7 +13,7 @@ class TuiSpec extends AnyWordSpec with Matchers{
     val tui = new Tui(controller)
     "create a new board on input 'n'" in{
       tui.processInputLine("n")
-      //controller.board shoud be(new Board())
+      controller.board should be(new Board(24))
     }
   }
 }
