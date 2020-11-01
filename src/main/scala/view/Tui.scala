@@ -2,21 +2,22 @@ package view
 
 import controller.Controller
 import model.{Board, Stone}
+import util.Observer
 
-class Tui(controller: Controller) {
+class Tui(controller: Controller) extends Observer{
+
+  controller.add(this)
 
   def processInputLine(input: String): Unit = {
     input match {
-      case "q" => controller.create_new_Player()
+      case "q" =>
       case "h" => helpBoard()
       case "n" => {
         controller.create_empty_Board()
-        updateBoard(controller.board)
       }
       case _ => input.toList.filter(c => c != ' ').map(c => c.toString.toInt) match {
         case rect_num :: pos_num :: Nil => {
           controller.set((rect_num - 1), (pos_num - 1), 1)
-          updateBoard(controller.board)
         }
       }
     }
@@ -104,4 +105,6 @@ class Tui(controller: Controller) {
     println("*                                        IN SCALA                                            *"  )
     println("**********************************************************************************************"  )
   }
+
+  override def update: Unit = updateBoard(controller.board)
 }

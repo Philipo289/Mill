@@ -11,6 +11,7 @@ object Mill {
 
   val controller = new Controller(new Board(24))
   val tui = new Tui(controller)
+  controller.notifyObservers
 
   def main(args: Array[String]) = {
 
