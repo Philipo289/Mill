@@ -21,12 +21,8 @@ object Mill {
       input = readLine()
       tui.processInputLine(input)
         if(input == "n"){
-          tui.playerOneName()
-          val playerOneName = readLine()
-          tui.playerTwoName()
-          val playerTwoName = readLine()
-          controller.create_new_Players(playerOneName, playerTwoName)
-          tui.currentPlayer = controller.players(0)
+          playerInputIteration()
+          //tui.currentPlayer = controller.players(0)
           tui.gameBegin()
           controller.create_empty_Board()
           do{
@@ -60,5 +56,12 @@ object Mill {
       val play_board = new Board
       play_board.create_Board()
       println(play_board)*/
+  }
+  def playerInputIteration(): Unit ={
+    tui.playerOneName()
+    val playerOneName = readLine()
+    tui.playerTwoName()
+    val playerTwoName = readLine()
+    controller.create_new_Players(playerOneName, playerTwoName)
   }
 }

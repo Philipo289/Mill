@@ -36,7 +36,7 @@ class Tui(controller: Controller) extends Observer{
             if(validCoordinates){
               val validStone = controller.checkStoneSet(rect_num - 1, pos_num - 1)
               if( !validStone) {
-                controller.setStone((rect_num - 1), (pos_num - 1), 1)
+                controller.setStone((rect_num - 1), (pos_num - 1), currentPlayer.color)
               }
               else { stoneWarning() }
             }
@@ -156,6 +156,8 @@ class Tui(controller: Controller) extends Observer{
   }
   override def update: Unit = {
     updateBoard(controller.board)
-    //playerInitTurns()
+    if (currentPlayer.color == 0) { currentPlayer = controller.players(0) }
+    else { currentPlayer = changePlayer(controller.players) }
+    playerInitTurns()
   }
 }

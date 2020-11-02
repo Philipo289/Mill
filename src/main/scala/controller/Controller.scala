@@ -12,7 +12,6 @@ class Controller(var board: Board, var players: Vector[Player]) extends Observab
 
   def setStone(rect_num: Int, pos_num: Int, value: Int): Unit = {
       board = board.update_board(rect_num, pos_num, value)
-    println(board)
       notifyObservers
   }
 
