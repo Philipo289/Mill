@@ -27,20 +27,20 @@ class Tui(controller: Controller) extends Observer{
   }
 
   def processGameInputLine(input: String): Unit = {
-    if(currentPlayer.color == 0){
-      currentPlayer = controller.players(0)
-    }
     input match {
       case "q" =>
       case _ => {
         input.toList.filter(c => c != ' ').map(c => c.toString.toInt) match {
           case rect_num :: pos_num :: Nil => {
-            if(controller.setStone((rect_num - 1), (pos_num - 1), currentPlayer.color)){
-              currentPlayer = changePlayer(controller.players)
+            val validCoordinates = controller.checkInputCoordinates(rect_num, pos_num)
+            if(validCoordinates){
+              val validStone = controller.checkStoneSet(rect_num - 1, pos_num - 1)
+              if( !validStone) {
+                controller.setStone((rect_num - 1), (pos_num - 1), 1)
+              }
+              else { stoneWarning() }
             }
-            else {
-              stoneWarnig()
-            }
+            else{ coordinationWarning() }
           }
         }
       }
@@ -72,9 +72,13 @@ class Tui(controller: Controller) extends Observer{
     println("Game Phase One: Please place your stones on a free field.")
   }
 
-  def stoneWarnig(): Unit = {
+  def stoneWarning(): Unit = {
     println("Stone location already used.")
-    println("Please select another free coordinate.")
+    println("Please select another free coordinates.")
+  }
+  def coordinationWarning(): Unit = {
+    println("Invalid coordinates entered.")
+    println("Please select another free coordinates.")
   }
 
   def playerInitTurns(): Unit ={
@@ -152,6 +156,6 @@ class Tui(controller: Controller) extends Observer{
   }
   override def update: Unit = {
     updateBoard(controller.board)
-    playerInitTurns()
+    //playerInitTurns()
   }
 }

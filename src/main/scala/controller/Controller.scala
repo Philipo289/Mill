@@ -10,13 +10,20 @@ class Controller(var board: Board, var players: Vector[Player]) extends Observab
     notifyObservers
   }
 
-  def setStone(rect_num: Int, pos_num: Int, value: Int): Boolean = {
-    if(board.stone(rect_num, pos_num) == Stone(0)) {
+  def setStone(rect_num: Int, pos_num: Int, value: Int): Unit = {
       board = board.update_board(rect_num, pos_num, value)
+    println(board)
       notifyObservers
-      true
-    }
-    else{ false }
+  }
+
+  def checkInputCoordinates(rect_num: Int, pos_num: Int): Boolean = {
+    if(rect_num < 1 || rect_num > 3){ false }
+    else if(pos_num < 1 || pos_num > 8) { false }
+    else{ true }
+  }
+
+  def checkStoneSet(rect_num: Int, pos_num: Int): Boolean = {
+    board.check_stone_Set(rect_num, pos_num)
   }
 
   def create_new_Players(player1_name: String, player2_name: String) : Unit = {

@@ -8,4 +8,7 @@ case class Board(stones: BoardMatrix[Stone]) {
   def update_board(rectangle_num: Int, position_num:Int, color:Int) : Board ={
     copy(stones.replaceStone(rectangle_num, position_num, Stone(color)))
   }
+  def check_stone_Set(rectangle_num: Int, position_num:Int): Boolean ={
+    stones.stone(rectangle_num, position_num).isSet
+  }
 }

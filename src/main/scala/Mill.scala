@@ -27,7 +27,6 @@ object Mill {
           val playerTwoName = readLine()
           controller.create_new_Players(playerOneName, playerTwoName)
           tui.currentPlayer = controller.players(0)
-          println(controller.players)
           tui.gameBegin()
           controller.create_empty_Board()
           do{
