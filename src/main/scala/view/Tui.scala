@@ -32,6 +32,7 @@ class Tui(controller: Controller) extends Observer{
       case _ => {
         input.toList.filter(c => c != ' ').map(c => c.toString.toInt) match {
           case rect_num :: pos_num :: Nil => {
+            println(controller.amountOfPlayerStones(currentPlayer.color))
             val validCoordinates = controller.checkInputCoordinates(rect_num, pos_num)
             if(validCoordinates){
               val validStone = controller.checkStoneSet(rect_num - 1, pos_num - 1)
@@ -82,7 +83,7 @@ class Tui(controller: Controller) extends Observer{
   }
 
   def playerInitTurns(): Unit ={
-    println(s"\n${currentPlayer.name} it is your turn Place one stone on a specific coordinate: ")
+    println(s"\n${currentPlayer.name} it is your turn Place one stone on a specific coordinate (${controller.amountOfPlayerStones(currentPlayer.color)} of 9): ")
   }
 
   def color_matcher(in:Stone):String = {

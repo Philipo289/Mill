@@ -21,6 +21,10 @@ class Controller(var board: Board, var players: Vector[Player]) extends Observab
     else{ true }
   }
 
+  def amountOfPlayerStones(color: Int): Int = {
+    board.amount_of_played_stones(color)
+  }
+
   def checkStoneSet(rect_num: Int, pos_num: Int): Boolean = {
     board.check_stone_Set(rect_num, pos_num)
   }
