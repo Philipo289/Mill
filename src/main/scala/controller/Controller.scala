@@ -33,6 +33,41 @@ class Controller(var board: Board, var players: Vector[Player]) extends Observab
     players = Vector(Player(player1_name, 1), Player(player2_name, 2))
   }
 
+
+  def check_stone_color(rectangle_num:Int, position:Int): Stone ={
+    val stone_color = board.stones.stone(rectangle_num, position)
+    stone_color
+  }
+    //def check_possible_moves(position: Vector[Int], color: Int)
+
+    //def show_possible_moves()
+
+  def move_stone(rectangle_num: Int, position: Int, stone: Int, rectangle_num_new:Int, position_new:Int): Boolean ={
+    if(select_stone(rectangle_num, position, stone)==true){
+      board = board.update_board(rectangle_num, position, 0)
+      board = board.update_board(rectangle_num_new, position_new, stone)
+      true
+    }
+    else{
+      false
+    }
+
+  }
+
+    //def remove_stone()
+
+  def select_stone(rectangle_num: Int, position : Int, stone: Int): Boolean = {
+    if(Stone(stone) == check_stone_color(rectangle_num, position)){
+      true
+    }
+    else{
+      false
+    }
+  }
+
+    //def end_of_game()
+
+
   //def check_possible_moves(position: Vector[Int], color: Int)
 
   //def show_possible_moves()
