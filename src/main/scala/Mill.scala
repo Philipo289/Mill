@@ -9,7 +9,7 @@ object Mill {
 
   //val color = ("black", "white")
 
-  val controller = new Controller(new Board(24))
+  val controller = new Controller(new Board)
   val tui = new Tui(controller)
   controller.notifyObservers
 
@@ -21,6 +21,12 @@ object Mill {
     do{
       input = readLine()
       tui.processInputLine(input)
+        if(input == "n"){
+          do{
+            input = readLine()
+            tui.processInputLine(input)
+          } while (input != "q") // || Spielende
+        }
     } while(input != "q")
 
     tui.goodbyeScreen()

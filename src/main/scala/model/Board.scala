@@ -1,7 +1,7 @@
 package model
 
 case class Board(stones: BoardMatrix[Stone]) {
-  def this(size: Int) = this(new BoardMatrix[Stone](size, Stone(0)))
+  def this() = this(new BoardMatrix[Stone](Stone(0)))
 
   def stone(rect_num: Int, pos_num: Int) = stones.stone(rect_num, pos_num)
 

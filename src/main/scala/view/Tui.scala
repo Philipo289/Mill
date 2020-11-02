@@ -105,6 +105,5 @@ class Tui(controller: Controller) extends Observer{
     println("*                                        IN SCALA                                            *"  )
     println("**********************************************************************************************"  )
   }
-
   override def update: Unit = updateBoard(controller.board)
 }

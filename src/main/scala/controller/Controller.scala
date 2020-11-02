@@ -6,7 +6,7 @@ import util.Observable
 class Controller(var board: Board) extends Observable{
 
   def create_empty_Board(): Unit = {
-    board = new Board(24)
+    board = new Board
     notifyObservers
   }
 

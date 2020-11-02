@@ -6,7 +6,7 @@ import org.scalatest.wordspec.AnyWordSpec
 class BoardSpec extends AnyWordSpec with Matchers{
   "A board" when {
     "created properly but empty" should {
-      val board = new Board(24)
+      val board = new Board
       "give access to its Stones" in {
         board.stone(0, 0) should be(Stone(0))
         board.stone(0, 1) should be(Stone(0))
