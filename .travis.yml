@@ -2,5 +2,7 @@ language: scala
 scala:
 - 2.13.3
 
-script: "sbt clean coverage test"
-after_success: "sbt coverageReport coveralls"
+script:
+  - sbt clean coverage test
+after_success:
+  - sbt coverageReport coveralls
