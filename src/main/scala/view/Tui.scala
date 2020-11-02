@@ -1,29 +1,47 @@
 package view
 
 import controller.Controller
-import model.{Board, Stone}
+import model.{Board, Player, Stone}
 import util.Observer
 
 class Tui(controller: Controller) extends Observer{
 
   controller.add(this)
+  var currentPlayer = new Player("", 0)
 
   def processInputLine(input: String): Unit = {
     input match {
       case "q" =>
       case "h" => helpBoard()
-      case "n" => {
-        controller.create_empty_Board()
-      }
+      case "n" =>
       case _ => println("No valid input. Please try again!")
     }
   }
+
+  def changePlayer(players: Vector[Player]): Player ={
+    currentPlayer.color match {
+      case 1 => players(1)
+      case 2 => players(0)
+      case _ => players(0)
+    }
+  }
+
   def processGameInputLine(input: String): Unit = {
+    if(currentPlayer.color == 0){
+      currentPlayer = controller.players(0)
+    }
     input match {
       case "q" =>
-      case _ => input.toList.filter(c => c != ' ').map(c => c.toString.toInt) match {
-        case rect_num :: pos_num :: Nil => {
-          controller.set((rect_num - 1), (pos_num - 1), 1)
+      case _ => {
+        input.toList.filter(c => c != ' ').map(c => c.toString.toInt) match {
+          case rect_num :: pos_num :: Nil => {
+            if(controller.setStone((rect_num - 1), (pos_num - 1), currentPlayer.color)){
+              currentPlayer = changePlayer(controller.players)
+            }
+            else {
+              stoneWarnig()
+            }
+          }
         }
       }
     }
@@ -40,6 +58,27 @@ class Tui(controller: Controller) extends Observer{
     println("*                                        IN SCALA                                            *"  )
     println("**********************************************************************************************"  )
     println("Press 'n' for new Game\nPress 'h' for help\nPress 'q' to quit"                                                           )
+  }
+
+  def playerOneName(): Unit ={
+    print("Please enter name of player one: ")
+  }
+  def playerTwoName(): Unit ={
+    print("Please enter name of player two: ")
+  }
+
+  def gameBegin(): Unit = {
+    println("Let the game begin.")
+    println("Game Phase One: Please place your stones on a free field.")
+  }
+
+  def stoneWarnig(): Unit = {
+    println("Stone location already used.")
+    println("Please select another free coordinate.")
+  }
+
+  def playerInitTurns(): Unit ={
+    println(s"\n${currentPlayer.name} it is your turn Place one stone on a specific coordinate: ")
   }
 
   def color_matcher(in:Stone):String = {
@@ -111,5 +150,8 @@ class Tui(controller: Controller) extends Observer{
     println("*                                        IN SCALA                                            *"  )
     println("**********************************************************************************************"  )
   }
-  override def update: Unit = updateBoard(controller.board)
+  override def update: Unit = {
+    updateBoard(controller.board)
+    playerInitTurns()
+  }
 }

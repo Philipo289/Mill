@@ -9,9 +9,8 @@ object Mill {
 
   //val color = ("black", "white")
 
-  val controller = new Controller(new Board)
+  val controller = new Controller(new Board, Vector())
   val tui = new Tui(controller)
-  controller.notifyObservers
 
   def main(args: Array[String]) = {
 
@@ -22,6 +21,15 @@ object Mill {
       input = readLine()
       tui.processInputLine(input)
         if(input == "n"){
+          tui.playerOneName()
+          val playerOneName = readLine()
+          tui.playerTwoName()
+          val playerTwoName = readLine()
+          controller.create_new_Players(playerOneName, playerTwoName)
+          tui.currentPlayer = controller.players(0)
+          println(controller.players)
+          tui.gameBegin()
+          controller.create_empty_Board()
           do{
             input = readLine()
             tui.processGameInputLine(input)

@@ -11,7 +11,7 @@ class PlayerSpec extends AnyWordSpec with Matchers{
         player.name should be("Your name")
       }
       "have a color" in {
-        player.color_Int should be(1)
+        player.color should be(1)
       }
     }
   }
