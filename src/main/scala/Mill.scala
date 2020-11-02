@@ -24,7 +24,7 @@ object Mill {
         if(input == "n"){
           do{
             input = readLine()
-            tui.processInputLine(input)
+            tui.processGameInputLine(input)
           } while (input != "q") // || Spielende
         }
     } while(input != "q")

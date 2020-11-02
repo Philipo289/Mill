@@ -5,4 +5,12 @@ case class BoardMatrix[T](rows: Vector[Vector[T]]) {
 
   def stone(rect_num: Int, pos_num: Int): T = rows(rect_num)(pos_num)
   def replaceStone(rect_num: Int, pos_num:Int, stone: T): BoardMatrix[T] = copy(rows.updated(rect_num, rows(rect_num).updated(pos_num, stone)))
+  def checkStone(rect_num: Int, pos_num:Int, stone: T): Boolean = {
+    if(rows(rect_num)(pos_num) == Stone(0)){
+      true
+    }
+    else{
+      false
+    }
+  }
 }

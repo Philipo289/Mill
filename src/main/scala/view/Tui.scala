@@ -15,6 +15,12 @@ class Tui(controller: Controller) extends Observer{
       case "n" => {
         controller.create_empty_Board()
       }
+      case _ => println("No valid input. Please try again!")
+    }
+  }
+  def processGameInputLine(input: String): Unit = {
+    input match {
+      case "q" =>
       case _ => input.toList.filter(c => c != ' ').map(c => c.toString.toInt) match {
         case rect_num :: pos_num :: Nil => {
           controller.set((rect_num - 1), (pos_num - 1), 1)
