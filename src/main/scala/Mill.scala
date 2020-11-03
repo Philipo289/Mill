@@ -33,9 +33,9 @@ object Mill {
     println(tui.goodbyeScreen())
   }
   def playerInputIteration(): Unit ={
-    tui.playerOneName()
+    print(tui.playerOneName())
     val playerOneName = readLine()
-    tui.playerTwoName()
+    print(tui.playerTwoName())
     val playerTwoName = readLine()
     controller.create_new_Players(playerOneName, playerTwoName)
   }

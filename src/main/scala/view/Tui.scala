@@ -74,33 +74,40 @@ class Tui(controller: Controller) extends Observer{
     welcomeString
   }
 
-  def playerOneName(): Unit ={
-    print("Please enter name of player one: ")
+  def playerOneName(): String ={
+    val playerString = "Please enter name of player one: "
+    playerString
   }
-  def playerTwoName(): Unit ={
-    print("Please enter name of player two: ")
+  def playerTwoName(): String ={
+    val playerString = "Please enter name of player two: "
+    playerString
   }
 
-  def gamePhaseOneBegin(): Unit = {
+  def gamePhaseOneBegin(): String = {
     controller.gameStatus = GameStatus.GPONE
-    println(GameStatus.message(controller.gameStatus))
+
+    val gpOneString = GameStatus.message(controller.gameStatus)
+    gpOneString
   }
-  def gamePhaseTwoBegin(): Unit = {
+  def gamePhaseTwoBegin(): String = {
     controller.gameStatus = GameStatus.GPTWO
-    println(GameStatus.message(controller.gameStatus))
+    val gpTwoString = GameStatus.message(controller.gameStatus)
+    gpTwoString
   }
 
-  def stoneWarning(): Unit = {
-    println("Stone location already used.")
-    println("Please select another free coordinates.")
+  def stoneWarning(): String = {
+    val warningString = "Stone location already used.\nPlease select another free coordinates."
+    warningString
   }
-  def coordinationWarning(): Unit = {
-    println("Invalid coordinates entered.")
-    println("Please select another free coordinates.")
+  def coordinationWarning(): String = {
+    val warningString = "Invalid coordinates entered.\nPlease select another free coordinates."
+    warningString
   }
 
-  def playerInitTurns(): Unit ={
-    println(s"\n${currentPlayer.name} it is your turn Place one stone on a specific coordinate (${controller.amountOfPlayerStones(currentPlayer.color) + 1} of 9): ")
+  def playerInitTurns(): String ={
+    val playerTurnString = s"\n${currentPlayer.name} it is your turn Place one stone on a specific coordinate " + "" +
+      s"(${controller.amountOfPlayerStones(currentPlayer.color) + 1} of 9):"
+    playerTurnString
   }
 
   def color_matcher(in:Stone):String = {
@@ -179,8 +186,8 @@ class Tui(controller: Controller) extends Observer{
     else { currentPlayer = changePlayer(controller.players) }
 
     if(controller.amountOfPlayerStones(1) == 9 && controller.amountOfPlayerStones(2) == 9) {
-      gamePhaseTwoBegin()
+      println(gamePhaseTwoBegin())
     }
-    else { playerInitTurns }
+    else { println(playerInitTurns) }
   }
 }
