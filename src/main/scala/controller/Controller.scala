@@ -1,9 +1,12 @@
 package controller
 
+import controller.GameStatus._
 import model.{Board, Player, Stone}
 import util.Observable
 
 class Controller(var board: Board, var players: Vector[Player]) extends Observable{
+
+  var gameStatus: GameStatus = IDLE
 
   def create_empty_Board(): Unit = {
     board = new Board
