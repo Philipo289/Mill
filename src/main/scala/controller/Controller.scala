@@ -34,6 +34,26 @@ class Controller(var board: Board, var players: Vector[Player]) extends Observab
 
   def create_new_Players(player1_name: String, player2_name: String) : Unit = {
     players = Vector(Player(player1_name, 1), Player(player2_name, 2))
+    
+  def create_new_Player(name: String, color: Int) : String = {
+    val player = new Player(name, color)
+    player.create_player()
+    name + color.toString;
+  }
+
+  def check_color(color: Int): String ={
+    if (color == 1){
+      val color_str_wh = "white"
+      return color_str_wh
+    }
+    if (color == 2){
+      val color_str_bl = "black"
+      return color_str_bl
+    }
+    else{
+      val color_str_in = "Invalid color value!"
+      return color_str_in
+    }
   }
 
   //def check_possible_moves(position: Vector[Int], color: Int)

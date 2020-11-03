@@ -21,3 +21,7 @@
  
  3. The Player who has only 2 Stones or is not able to move at least 1 stone lost the game
  
+
+## Travis CI
+[![Build Status](https://travis-ci.org/Philipo289/Mill.svg?branch=dev)](https://travis-ci.org/Philipo289/Mill)
+[![Coverage Status](https://coveralls.io/repos/github/Philipo289/Mill/badge.svg?branch=dev)](https://coveralls.io/github/Philipo289/Mill?branch=dev)
