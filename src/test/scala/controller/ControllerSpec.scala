@@ -25,6 +25,24 @@ class ControllerSpec extends AnyWordSpec with Matchers{
         observer.updated should be(true)
         controller.board.stone(0, 0).color should be(1)
       }
+      "check if input coordinates are valid" in {
+        controller.checkInputCoordinates(0, 0) should be(false)
+        controller.checkInputCoordinates(0, 1) should be(false)
+        controller.checkInputCoordinates(1, 0) should be(false)
+        controller.checkInputCoordinates(1, 9) should be(false)
+        controller.checkInputCoordinates(4, 1) should be(false)
+        controller.checkInputCoordinates(1, 1) should be(true)
+      }
+      "show amount of stones on the board" in {
+        controller.amountOfPlayerStones(1) should be(1)
+      }
+      "create new players" in {
+        controller.create_new_Players("Name 1", "Name 2")
+        controller.players(0).name should be("Name 1")
+        controller.players(0).color should be(1)
+        controller.players(1).name should be("Name 2")
+        controller.players(1).color should be(2)
+      }
     }
   }
 }
