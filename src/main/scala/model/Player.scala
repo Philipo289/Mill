@@ -1,8 +1,5 @@
 package model
 
-
-case class Player(val name: String, val color: Int)
-
 case class Player(name: String, color:Int) {
 
   def create_player(): Player ={
@@ -12,4 +9,3 @@ case class Player(name: String, color:Int) {
     player
   }
 }
-
