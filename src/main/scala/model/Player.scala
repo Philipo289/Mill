@@ -1,3 +1,3 @@
 package model
 
-case class Player(val name: String, val color: Int)
+case class Player(val name: String, val color: Int){}
