@@ -42,7 +42,10 @@ class Controller(var board: Board, var players: Vector[Player]) extends Observab
 
   //def move_stone()
 
-  //def remove_stone()
+  def remove_stone(rect_num: Int, pos_num: Int, color: Int): Unit = {
+    board = board.update_board(rect_num, pos_num, color)
+    notifyObservers
+  }
 
   //def select_stone()
 

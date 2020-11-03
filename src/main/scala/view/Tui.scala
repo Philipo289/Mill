@@ -4,6 +4,8 @@ import controller.{Controller, GameStatus}
 import model.{Board, Player, Stone}
 import util.Observer
 
+import scala.io.StdIn.readLine
+
 class Tui(controller: Controller) extends Observer{
 
   controller.add(this)
@@ -29,6 +31,13 @@ class Tui(controller: Controller) extends Observer{
   def processGameInputLine(input: String): Unit = {
     input match {
       case "q" =>
+      case "r" => println("Which stone u want to remove?")
+        val input_remove = readLine()
+        input_remove match {
+        case _ => input_remove.toList.filter(c => c != ' ').map(c => c.toString.toInt) match {
+          case rect_num :: pos_num :: Nil => controller.remove_stone((rect_num - 1), (pos_num - 1), 0)
+        }
+      }
       case _ => {
         input.toList.filter(c => c != ' ').map(c => c.toString.toInt) match {
           case rect_num :: pos_num :: Nil => {
