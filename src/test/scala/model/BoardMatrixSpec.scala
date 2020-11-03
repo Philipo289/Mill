@@ -12,5 +12,9 @@ class BoardMatrixSpec extends AnyWordSpec with Matchers{
         boardMatrix.stone(0, 0) should be(Stone(0))
         returnedBoardMatrix.stone(0, 0) should be(Stone(1))
       }
+    "show amount of played stones" in {
+      val board = new BoardMatrix[Stone](Stone(0))
+      board.amountOfPlayedStones(0) should be(24)
+    }
   }
 }

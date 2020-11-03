@@ -38,6 +38,16 @@ class BoardSpec extends AnyWordSpec with Matchers{
         changedBoard.stone(0, 0) should be(Stone(1))
         board.stone(0, 0) should be(Stone(0))
       }
+      "allow to check individual Stones if set" in {
+        val changedBoard = board.update_board(0, 0, 1)
+        board.check_stone_Set(0, 0) should be(false)
+        changedBoard.check_stone_Set(0, 0) should be(true)
+      }
+      "get amount of played stones depending on a specific color" in {
+        val changedBoard = board.update_board(0, 0, 1)
+        board.amount_of_played_stones(0) should be(24)
+        changedBoard.amount_of_played_stones(1) should be(1)
+      }
     }
   }
 }
