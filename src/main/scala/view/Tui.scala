@@ -14,7 +14,7 @@ class Tui(controller: Controller) extends Observer{
   def processInputLine(input: String): Unit = {
     input match {
       case "q" =>
-      case "h" => helpBoard()
+      case "h" => println(helpBoard())
       case "n" =>
       case _ => println("No valid input. Please try again!")
     }
@@ -59,18 +59,19 @@ class Tui(controller: Controller) extends Observer{
       }
     }
   }
-  def welcomeScreen(): Unit ={
-    println("**********************************************************************************************"  )
-    println("*                                       WELCOME TO                                           *"  )
-    println("*  __________   __     __   ________      _____      ______    __    __           __         *"  )
-    println("* |___    ___| |  |   |  | |   _____|    |   _  \\   /  _   |  |  |  |  |         |  |        *" )
-    println("*     |  |     |  |___|  | |  |_____     |  | \\  \\_/  / |  |  |  |  |  |         |  |        *")
-    println("*     |  |     |   ___   | |  ______|    |  |  \\_____/  |  |  |  |  |  |         |  |        *" )
-    println("*     |  |     |  |   |  | |  |_____     |  |           |  |  |  |  |  |______   |  |______  *"  )
-    println("*     |__|     |__|   |__| |________|    |__|           |__|  |__|  |_________|  |_________| *"  )
-    println("*                                        IN SCALA                                            *"  )
-    println("**********************************************************************************************"  )
-    println("Press 'n' for new Game\nPress 'h' for help\nPress 'q' to quit"                                                           )
+  def welcomeScreen(): String ={
+    val welcomeString = "**********************************************************************************************\n" +
+      "*                                       WELCOME TO                                           *\n"   +
+      "*  __________   __     __   ________      _____      ______    __    __           __         *\n"   +
+      "* |___    ___| |  |   |  | |   _____|    |   _  \\   /  _   |  |  |  |  |         |  |        *\n"  +
+      "*     |  |     |  |___|  | |  |_____     |  | \\  \\_/  / |  |  |  |  |  |         |  |        *\n" +
+      "*     |  |     |   ___   | |  ______|    |  |  \\_____/  |  |  |  |  |  |         |  |        *\n"  +
+      "*     |  |     |  |   |  | |  |_____     |  |           |  |  |  |  |  |______   |  |______  *\n"   +
+      "*     |__|     |__|   |__| |________|    |__|           |__|  |__|  |_________|  |_________| *\n"   +
+      "*                                        IN SCALA                                            *\n"   +
+      "**********************************************************************************************\n"   +
+      "Press 'n' for new Game\nPress 'h' for help\nPress 'q' to quit\n"
+    welcomeString
   }
 
   def playerOneName(): Unit ={
@@ -111,68 +112,69 @@ class Tui(controller: Controller) extends Observer{
     }
   }
 
-  def updateBoard(board: Board): Unit={
-
+  def updateBoard(board: Board): String={
     val uiBoard = board.stones.rows.map(i => i.map(color_matcher))
 
-    println(s"               ${uiBoard(0)(0)}----------------------------${uiBoard(0)(1)}----------------------------${uiBoard(0)(2)}" )
-    println("               |                            |                            |")
-    println("               |                            |                            |")
-    println(s"               |          ${uiBoard(1)(0)}-----------------${uiBoard(1)(1)}-----------------${uiBoard(1)(2)}          |")
-    println("               |          |                 |                 |          |")
-    println("               |          |                 |                 |          |")
-    println(s"               |          |         ${uiBoard(2)(0)}-------${uiBoard(2)(1)}-------${uiBoard(2)(2)}         |          |")
-    println("               |          |         |               |         |          |")
-    println("               |          |         |               |         |          |")
-    println(s"               ${uiBoard(0)(7)}----------${uiBoard(1)(7)}---------${uiBoard(2)(7)}               ${uiBoard(2)(3)}---------${uiBoard(1)(3)}----------${uiBoard(0)(3)}")
-    println("               |          |         |               |         |          |")
-    println("               |          |         |               |         |          |")
-    println(s"               |          |         ${uiBoard(2)(6)}-------${uiBoard(2)(5)}-------${uiBoard(2)(4)}         |          |")
-    println("               |          |                 |                 |          |")
-    println("               |          |                 |                 |          |")
-    println(s"               |          ${uiBoard(1)(6)}-----------------${uiBoard(1)(5)}-----------------${uiBoard(1)(4)}          |")
-    println("               |                            |                            |")
-    println("               |                            |                            |")
-    println(s"               ${uiBoard(0)(6)}----------------------------${uiBoard(0)(5)}----------------------------${uiBoard(0)(4)}" )
+    val updateString = s"               ${uiBoard(0)(0)}----------------------------${uiBoard(0)(1)}----------------------------${uiBoard(0)(2)}\n" +
+    "               |                            |                            |\n" +
+    "               |                            |                            |\n" +
+    s"               |          ${uiBoard(1)(0)}-----------------${uiBoard(1)(1)}-----------------${uiBoard(1)(2)}          |\n" +
+    "               |          |                 |                 |          |\n" +
+    "               |          |                 |                 |          |\n" +
+    s"               |          |         ${uiBoard(2)(0)}-------${uiBoard(2)(1)}-------${uiBoard(2)(2)}         |          |\n" +
+    "               |          |         |               |         |          |\n" +
+    "               |          |         |               |         |          |\n" +
+    s"               ${uiBoard(0)(7)}----------${uiBoard(1)(7)}---------${uiBoard(2)(7)}               ${uiBoard(2)(3)}---------${uiBoard(1)(3)}----------${uiBoard(0)(3)}\n" +
+    "               |          |         |               |         |          |\n" +
+    "               |          |         |               |         |          |\n" +
+    s"               |          |         ${uiBoard(2)(6)}-------${uiBoard(2)(5)}-------${uiBoard(2)(4)}         |          |\n" +
+    "               |          |                 |                 |          |\n" +
+    "               |          |                 |                 |          |\n" +
+    s"               |          ${uiBoard(1)(6)}-----------------${uiBoard(1)(5)}-----------------${uiBoard(1)(4)}          |\n" +
+    "               |                            |                            |\n" +
+    "               |                            |                            |\n" +
+    s"               ${uiBoard(0)(6)}----------------------------${uiBoard(0)(5)}----------------------------${uiBoard(0)(4)}\n"
+    updateString
   }
-  def helpBoard(): Unit ={
-    println("To access the Nodes see the following coordinates:\n")
-    println("               O----------------------------O----------------------------O" )
-    println("               | (11)                       | (12)                  (13) |")
-    println("               |                            |                            |")
-    println("               |          O-----------------O-----------------O          |")
-    println("               |          | (21)            | (22)       (23) |          |")
-    println("               |          |            (32) |                 |          |")
-    println("               |          |         O-------O-------O         |          |")
-    println("               |          |         | (31)     (33) |         |          |")
-    println("               |          |         |               |         |          |")
-    println("               O----------O---------O (38)     (34) O---------O----------O")
-    println("               | (18)     | (28)    |               |    (24) |     (14) |")
-    println("               |          |         | (37)     (35) |         |          |")
-    println("               |          |         O-------O-------O         |          |")
-    println("               |          |            (36) |                 |          |")
-    println("               |          | (27)            | (26)       (25) |          |")
-    println("               |          O-----------------O-----------------O          |")
-    println("               |                            |                            |")
-    println("               | (17)                       | (16)                  (15) |")
-    println("               O----------------------------O----------------------------O")
-
+  def helpBoard(): String ={
+    val helpString = "To access the Nodes see the following coordinates:\n" +
+    "               O----------------------------O----------------------------O\n" +
+    "               | (11)                       | (12)                  (13) |\n" +
+    "               |                            |                            |\n" +
+    "               |          O-----------------O-----------------O          |\n" +
+    "               |          | (21)            | (22)       (23) |          |\n" +
+    "               |          |            (32) |                 |          |\n" +
+    "               |          |         O-------O-------O         |          |\n" +
+    "               |          |         | (31)     (33) |         |          |\n" +
+    "               |          |         |               |         |          |\n" +
+    "               O----------O---------O (38)     (34) O---------O----------O\n" +
+    "               | (18)     | (28)    |               |    (24) |     (14) |\n" +
+    "               |          |         | (37)     (35) |         |          |\n" +
+    "               |          |         O-------O-------O         |          |\n" +
+    "               |          |            (36) |                 |          |\n" +
+    "               |          | (27)            | (26)       (25) |          |\n" +
+    "               |          O-----------------O-----------------O          |\n" +
+    "               |                            |                            |\n" +
+    "               | (17)                       | (16)                  (15) |\n" +
+    "               O----------------------------O----------------------------O\n"
+    helpString
   }
 
-  def goodbyeScreen(): Unit ={
-    println("**********************************************************************************************"  )
-    println("*                                  THANK YOU FOR PLAYING                                     *"  )
-    println("*  __________   __     __   ________      _____      ______    __    __           __         *"  )
-    println("* |___    ___| |  |   |  | |   _____|    |   _  \\   /  _   |  |  |  |  |         |  |        *" )
-    println("*     |  |     |  |___|  | |  |_____     |  | \\  \\_/  / |  |  |  |  |  |         |  |        *")
-    println("*     |  |     |   ___   | |  ______|    |  |  \\_____/  |  |  |  |  |  |         |  |        *" )
-    println("*     |  |     |  |   |  | |  |_____     |  |           |  |  |  |  |  |______   |  |______  *"  )
-    println("*     |__|     |__|   |__| |________|    |__|           |__|  |__|  |_________|  |_________| *"  )
-    println("*                                        IN SCALA                                            *"  )
-    println("**********************************************************************************************"  )
+  def goodbyeScreen(): String ={
+    val goodbyeString = "**********************************************************************************************\n" +
+    "*                                  THANK YOU FOR PLAYING                                     *\n"   +
+    "*  __________   __     __   ________      _____      ______    __    __           __         *\n"   +
+    "* |___    ___| |  |   |  | |   _____|    |   _  \\   /  _   |  |  |  |  |         |  |        *\n"  +
+    "*     |  |     |  |___|  | |  |_____     |  | \\  \\_/  / |  |  |  |  |  |         |  |        *\n" +
+    "*     |  |     |   ___   | |  ______|    |  |  \\_____/  |  |  |  |  |  |         |  |        *\n"  +
+    "*     |  |     |  |   |  | |  |_____     |  |           |  |  |  |  |  |______   |  |______  *\n"   +
+    "*     |__|     |__|   |__| |________|    |__|           |__|  |__|  |_________|  |_________| *\n"   +
+    "*                                        IN SCALA                                            *\n"   +
+    "**********************************************************************************************\n"
+    goodbyeString
   }
   override def update: Unit = {
-    updateBoard(controller.board)
+    println(updateBoard(controller.board))
     if (currentPlayer.color == 0) { currentPlayer = controller.players(0) }
     else { currentPlayer = changePlayer(controller.players) }
 

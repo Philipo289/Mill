@@ -14,7 +14,7 @@ object Mill {
   def main(args: Array[String]) = {
 
     var input: String = ""
-    tui.welcomeScreen()
+    println(tui.welcomeScreen())
 
     do{
       input = readLine()
@@ -30,7 +30,7 @@ object Mill {
         }
     } while(input != "q")
 
-    tui.goodbyeScreen()
+    println(tui.goodbyeScreen())
   }
   def playerInputIteration(): Unit ={
     tui.playerOneName()
