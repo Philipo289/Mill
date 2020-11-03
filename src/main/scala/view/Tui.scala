@@ -115,7 +115,6 @@ class Tui(controller: Controller) extends Observer{
       case 0 => "O"
       case 1 => "W"
       case 2 => "B"
-      case _ => ""
     }
   }
 

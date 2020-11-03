@@ -15,6 +15,21 @@ class TuiSpec extends AnyWordSpec with Matchers{
       tui.processInputLine("n")
       controller.board should be(new Board)
     }
+    "should do nothing and leave loop on input 'q'" in {
+      tui.processInputLine("q")
+    }
+    "should print the help board on input 'h'" in {
+      tui.processInputLine("h")
+    }
+    "should provide any other input" in {
+      tui.processInputLine("_")
+    }
+
+    "should do nothing and leave loop in input 'q' in game mode" in {
+      tui.processGameInputLine("q")
+    }
+
+
 
     "should provide a welcome screen" in {
       val welcomeScreen =
@@ -100,6 +115,11 @@ class TuiSpec extends AnyWordSpec with Matchers{
     }
     "should update the board with new stones" in {
       val emptyBoard = new Board
+      val filledPlayerOneBoard = emptyBoard.update_board(0, 0, 1)
+      val filledPlayerTwoBoard = emptyBoard.update_board(0, 0, 2)
+
+
+
       val emptyBoardString =
         "               O----------------------------O----------------------------O\n" +
         "               |                            |                            |\n" +
@@ -120,7 +140,50 @@ class TuiSpec extends AnyWordSpec with Matchers{
         "               |                            |                            |\n" +
         "               |                            |                            |\n" +
         "               O----------------------------O----------------------------O\n"
+      val filledPlayerOneBoardString =
+        "               W----------------------------O----------------------------O\n" +
+        "               |                            |                            |\n" +
+        "               |                            |                            |\n" +
+        "               |          O-----------------O-----------------O          |\n" +
+        "               |          |                 |                 |          |\n" +
+        "               |          |                 |                 |          |\n" +
+        "               |          |         O-------O-------O         |          |\n" +
+        "               |          |         |               |         |          |\n" +
+        "               |          |         |               |         |          |\n" +
+        "               O----------O---------O               O---------O----------O\n" +
+        "               |          |         |               |         |          |\n" +
+        "               |          |         |               |         |          |\n" +
+        "               |          |         O-------O-------O         |          |\n" +
+        "               |          |                 |                 |          |\n" +
+        "               |          |                 |                 |          |\n" +
+        "               |          O-----------------O-----------------O          |\n" +
+        "               |                            |                            |\n" +
+        "               |                            |                            |\n" +
+        "               O----------------------------O----------------------------O\n"
+      val filledPlayerTwoBoardString =
+        "               B----------------------------O----------------------------O\n" +
+        "               |                            |                            |\n" +
+        "               |                            |                            |\n" +
+        "               |          O-----------------O-----------------O          |\n" +
+        "               |          |                 |                 |          |\n" +
+        "               |          |                 |                 |          |\n" +
+        "               |          |         O-------O-------O         |          |\n" +
+        "               |          |         |               |         |          |\n" +
+        "               |          |         |               |         |          |\n" +
+        "               O----------O---------O               O---------O----------O\n" +
+        "               |          |         |               |         |          |\n" +
+        "               |          |         |               |         |          |\n" +
+        "               |          |         O-------O-------O         |          |\n" +
+        "               |          |                 |                 |          |\n" +
+        "               |          |                 |                 |          |\n" +
+        "               |          O-----------------O-----------------O          |\n" +
+        "               |                            |                            |\n" +
+        "               |                            |                            |\n" +
+        "               O----------------------------O----------------------------O\n"
       tui.updateBoard(emptyBoard) should be(emptyBoardString)
+      tui.updateBoard(filledPlayerOneBoard) should be(filledPlayerOneBoardString)
+      tui.updateBoard(filledPlayerTwoBoard) should be(filledPlayerTwoBoardString)
+
     }
   }
 }
