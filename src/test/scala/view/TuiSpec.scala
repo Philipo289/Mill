@@ -109,7 +109,7 @@ class TuiSpec extends AnyWordSpec with Matchers{
       tui.stoneWarning() should be(warningMsg)
     }
     "should provide a message to show which player is playing with the amount of stones played" in {
-      tui.currentPlayer = new Player("Your Name", 1)
+      tui.currentPlayer = new Player("Your Name", 1, 9)
       val playerMsg = "\nYour Name it is your turn Place one stone on a specific coordinate (1 of 9):"
       tui.playerInitTurns() should be(playerMsg)
     }

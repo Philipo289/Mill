@@ -9,7 +9,7 @@ import scala.io.StdIn.readLine
 class Tui(controller: Controller) extends Observer{
 
   controller.add(this)
-  var currentPlayer = new Player("", 0)
+  var currentPlayer = new Player("", 0, 0)
 
   def processInputLine(input: String): Unit = {
     input match {
@@ -48,12 +48,11 @@ class Tui(controller: Controller) extends Observer{
                 if (!validStone) {
                   controller.setStone((rect_num - 1), (pos_num - 1), currentPlayer.color)
                 }
-                else {
-                  stoneWarning()
+                else { println(stoneWarning)
                 }
               }
             }
-            else{ coordinationWarning() }
+            else{ println(coordinationWarning) }
           }
         }
       }
@@ -106,7 +105,7 @@ class Tui(controller: Controller) extends Observer{
 
   def playerInitTurns(): String ={
     val playerTurnString = s"\n${currentPlayer.name} it is your turn Place one stone on a specific coordinate " + "" +
-      s"(${controller.amountOfPlayerStones(currentPlayer.color) + 1} of 9):"
+      s"(${controller.amountOfPlayerStones(currentPlayer.color) + 1} of ${currentPlayer.MAX_STONE}):"
     playerTurnString
   }
 
