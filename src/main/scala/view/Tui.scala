@@ -31,6 +31,7 @@ class Tui(controller: Controller) extends Observer{
   def processGameInputLine(input: String): Unit = {
     input match {
       case "q" =>
+      case "h" => println(helpBoard)
       case "r" => println("Which stone u want to remove?")
         val input_remove = readLine()
         input_remove match {
@@ -39,21 +40,29 @@ class Tui(controller: Controller) extends Observer{
         }
       }
       case _ => {
-        input.toList.filter(c => c != ' ').map(c => c.toString.toInt) match {
-          case rect_num :: pos_num :: Nil => {
-            val validCoordinates = controller.checkInputCoordinates(rect_num, pos_num)
-            if(validCoordinates) {
-              if (controller.gameStatus == GameStatus.GPONE) {
-                val validStone = controller.checkStoneSet(rect_num - 1, pos_num - 1)
-                if (!validStone) {
-                  controller.setStone((rect_num - 1), (pos_num - 1), currentPlayer.color)
-                }
-                else { println(stoneWarning)
+        if(input forall Character.isDigit) {
+          input.toList.filter(c => c != ' ').map(c => c.toString.toInt) match {
+            case rect_num :: pos_num :: Nil => {
+              val validCoordinates = controller.checkInputCoordinates(rect_num, pos_num)
+              if (validCoordinates) {
+                if (controller.gameStatus == GameStatus.GPONE) {
+                  val validStone = controller.checkStoneSet(rect_num - 1, pos_num - 1)
+                  if (!validStone) {
+                    controller.setStone((rect_num - 1), (pos_num - 1), currentPlayer.color)
+                  }
+                  else {
+                    println(stoneWarning)
+                  }
                 }
               }
+              else {
+                println(coordinationWarning)
+              }
             }
-            else{ println(coordinationWarning) }
           }
+        }
+        else{
+          println("No valid input. Please try again!")
         }
       }
     }
