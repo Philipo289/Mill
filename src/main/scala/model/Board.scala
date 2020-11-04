@@ -30,19 +30,35 @@ case class Board(stones: BoardMatrix[Stone]) {
       Integer.parseInt("00001110", 2),
       Integer.parseInt("10000011", 2))
 
-    val relevantVector = stones.rows.map(i => i.map(j => setup_relevant_Stones(j, color)))
-    val relevantIntVector = relevantVector.map(i => Integer.parseInt(vecToString(i), 2))
-    println(relevantIntVector)
+    val millCrossControlVector = Vector(
+      Integer.parseInt("010000000100000001000000", 2),
+      Integer.parseInt("000100000001000000010000", 2),
+      Integer.parseInt("000001000000010000000100", 2),
+      Integer.parseInt("000000010000000100000001", 2)
+    )
 
-    for{
-      controlVec <- millControlVector
-      relevantVec <- relevantIntVector
+    val relevantVector = stones.rows.map(i => i.map(j => setup_relevant_Stones(j, color)))
+
+    val relevantIntVector = relevantVector.map(i => Integer.parseInt(vecToString(i), 2))
+    val relevantIntFlatVector = Integer.parseInt(vecToString(relevantVector.flatMap(i => i.map(j => j.mkString))), 2)
+
+    for{ controlVec <- millControlVector
+         relevantVec <- relevantIntVector
     } {
       if ((controlVec & relevantVec) == controlVec)
       {
-        println(controlVec + " == " + (controlVec & relevantVec))
+        println("mill")
       }
       else {
+        println("no mill")
+      }
+    }
+    println("Cross Check")
+    for(controlCrossVec <- millCrossControlVector){
+      if((controlCrossVec & relevantIntFlatVector) == controlCrossVec){
+        println("mill")
+      }
+      else{
         println("no mill")
       }
     }
