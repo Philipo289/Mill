@@ -9,12 +9,12 @@ import scala.io.StdIn.readLine
 class Tui(controller: Controller) extends Observer{
 
   controller.add(this)
-  var currentPlayer = new Player("", 0)
+  var currentPlayer = new Player("", 0, 0)
 
   def processInputLine(input: String): Unit = {
     input match {
       case "q" =>
-      case "h" => println(helpBoard())
+      case "h" => println(helpBoard)
       case "n" =>
       case _ => println("No valid input. Please try again!")
     }
@@ -31,6 +31,7 @@ class Tui(controller: Controller) extends Observer{
   def processGameInputLine(input: String): Unit = {
     input match {
       case "q" =>
+      case "h" => println(helpBoard)
       case "r" => println("Which stone u want to remove?")
         val input_remove = readLine()
         input_remove match {
@@ -39,22 +40,29 @@ class Tui(controller: Controller) extends Observer{
         }
       }
       case _ => {
-        input.toList.filter(c => c != ' ').map(c => c.toString.toInt) match {
-          case rect_num :: pos_num :: Nil => {
-            val validCoordinates = controller.checkInputCoordinates(rect_num, pos_num)
-            if(validCoordinates) {
-              if (controller.gameStatus == GameStatus.GPONE) {
-                val validStone = controller.checkStoneSet(rect_num - 1, pos_num - 1)
-                if (!validStone) {
-                  controller.setStone((rect_num - 1), (pos_num - 1), currentPlayer.color)
-                }
-                else {
-                  stoneWarning()
+        if(input forall Character.isDigit) {
+          input.toList.filter(c => c != ' ').map(c => c.toString.toInt) match {
+            case rect_num :: pos_num :: Nil => {
+              val validCoordinates = controller.checkInputCoordinates(rect_num, pos_num)
+              if (validCoordinates) {
+                if (controller.gameStatus == GameStatus.GPONE) {
+                  val validStone = controller.checkStoneSet(rect_num - 1, pos_num - 1)
+                  if (!validStone) {
+                    controller.setStone((rect_num - 1), (pos_num - 1), currentPlayer.color)
+                  }
+                  else {
+                    println(stoneWarning)
+                  }
                 }
               }
+              else {
+                println(coordinationWarning)
+              }
             }
-            else{ coordinationWarning() }
           }
+        }
+        else{
+          println("No valid input. Please try again!")
         }
       }
     }
@@ -106,7 +114,7 @@ class Tui(controller: Controller) extends Observer{
 
   def playerInitTurns(): String ={
     val playerTurnString = s"\n${currentPlayer.name} it is your turn Place one stone on a specific coordinate " + "" +
-      s"(${controller.amountOfPlayerStones(currentPlayer.color) + 1} of 9):"
+      s"(${controller.amountOfPlayerStones(currentPlayer.color) + 1} of ${currentPlayer.MAX_STONES}):"
     playerTurnString
   }
 

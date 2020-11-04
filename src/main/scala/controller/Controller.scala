@@ -24,6 +24,11 @@ class Controller(var board: Board, var players: Vector[Player]) extends Observab
     else{ true }
   }
 
+  /*def verifyMill(color: Int): Boolean = {
+    println(board.check_mill(color))
+    board.check_mill(color)
+  }*/
+
   def amountOfPlayerStones(color: Int): Int = {
     board.amount_of_played_stones(color)
   }
@@ -33,7 +38,7 @@ class Controller(var board: Board, var players: Vector[Player]) extends Observab
   }
 
   def create_new_Players(player1_name: String, player2_name: String) : Unit = {
-    players = Vector(Player(player1_name, 1), Player(player2_name, 2))
+    players = Vector(Player(player1_name, 1, 9), Player(player2_name, 2, 9))
   }
 
   //def check_possible_moves(position: Vector[Int], color: Int)
