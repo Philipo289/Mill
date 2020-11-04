@@ -11,8 +11,40 @@ case class Board(stones: BoardMatrix[Stone]) {
   def check_stone_Set(rectangle_num: Int, position_num:Int): Boolean ={
     stones.stone(rectangle_num, position_num).isSet
   }
-
   def amount_of_played_stones(color: Int): Int = {
     stones.amountOfPlayedStones(color)
+  }
+
+  def setup_relevant_Stones(in: Stone, color: Int): String = {
+    if(in.color == color) {"1"}
+    else {"0"}
+  }
+
+  def vecToString(vec: Vector[String]): String = vec.mkString
+
+
+  def check_board_for_mill(color: Int): Unit = {
+    val millControlVector = Vector(
+      Integer.parseInt("11100000", 2),
+      Integer.parseInt("00111000", 2),
+      Integer.parseInt("00001110", 2),
+      Integer.parseInt("10000011", 2))
+
+    val relevantVector = stones.rows.map(i => i.map(j => setup_relevant_Stones(j, color)))
+    val relevantIntVector = relevantVector.map(i => Integer.parseInt(vecToString(i), 2))
+    println(relevantIntVector)
+
+    for{
+      controlVec <- millControlVector
+      relevantVec <- relevantIntVector
+    } {
+      if ((controlVec & relevantVec) == controlVec)
+      {
+        println(controlVec + " == " + (controlVec & relevantVec))
+      }
+      else {
+        println("no mill")
+      }
+    }
   }
 }
