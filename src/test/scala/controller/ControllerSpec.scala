@@ -43,6 +43,16 @@ class ControllerSpec extends AnyWordSpec with Matchers{
         controller.players(1).name should be("Name 2")
         controller.players(1).color should be(2)
       }
+      "check if stone is set" in {
+        controller.checkStoneSet(0, 0) should be(true)
+        controller.checkStoneSet(0, 1) should be(false)
+      }
+      "check board for a mill" in {
+        controller.checkBoardForMill(1) should be(false)
+        controller.setStone(0, 1, 1)
+        controller.setStone(0, 2, 1)
+        controller.checkBoardForMill(1) should be(true)
+      }
     }
   }
 }

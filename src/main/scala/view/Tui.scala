@@ -192,8 +192,8 @@ class Tui(controller: Controller) extends Observer{
     println(updateBoard(controller.board))
     if (currentPlayer.color == 0) { currentPlayer = controller.players(0) }
     else { currentPlayer = changePlayer(controller.players) }
-    controller.checkBoardForMill(currentPlayer.color)
 
+    //controller.checkBoardForMill(currentPlayer.color)
 
     if(controller.amountOfPlayerStones(1) == 9 && controller.amountOfPlayerStones(2) == 9) {
       println(gamePhaseTwoBegin())
