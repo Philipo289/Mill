@@ -48,6 +48,9 @@ class BoardSpec extends AnyWordSpec with Matchers{
         board.amount_of_played_stones(0) should be(24)
         changedBoard.amount_of_played_stones(1) should be(1)
       }
+      "check if player achieved a 'mill'" in {
+
+      }
     }
   }
 }

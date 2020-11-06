@@ -188,11 +188,13 @@ class Tui(controller: Controller) extends Observer{
     goodbyeString
   }
   override def update: Unit = {
+
     println(updateBoard(controller.board))
     if (currentPlayer.color == 0) { currentPlayer = controller.players(0) }
     else { currentPlayer = changePlayer(controller.players) }
+    controller.checkBoardForMill(currentPlayer.color)
 
-    controller.checkBoardForMill(1)
+
     if(controller.amountOfPlayerStones(1) == 9 && controller.amountOfPlayerStones(2) == 9) {
       println(gamePhaseTwoBegin())
     }

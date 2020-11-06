@@ -14,8 +14,4 @@ case class BoardMatrix[T](rows: Vector[Vector[T]]) {
     val filteredFlatVector = flatVector.filter(i => i == Stone(color))
     filteredFlatVector.length
   }
-
-  def checkMill(color: Int): Unit = {
-
-  }
 }

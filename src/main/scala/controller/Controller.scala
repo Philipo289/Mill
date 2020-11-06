@@ -28,7 +28,12 @@ class Controller(var board: Board, var players: Vector[Player]) extends Observab
     board.amount_of_played_stones(color)
   }
   def checkBoardForMill(color: Int): Unit = {
-    board.check_board_for_mill(color)
+    if(board.check_board_for_mill(color)){
+      println("Mill")
+    }
+    else{
+      println("No Mill")
+    }
   }
 
   def checkStoneSet(rect_num: Int, pos_num: Int): Boolean = {
