@@ -48,6 +48,11 @@ class ControllerSpec extends AnyWordSpec with Matchers{
         observer.updated should be(true)
         controller.board.stone(0, 0).color should be(0)
       }
+      "return true for checkStoneSet" in{
+        controller.setStone(0,0,1)
+        controller.checkStoneSet(0,0) should be(true)
+      }
+
     }
   }
 }
