@@ -48,10 +48,10 @@ class ControllerSpec extends AnyWordSpec with Matchers{
         controller.checkStoneSet(0, 1) should be(false)
       }
       "check board for a mill" in {
-        //controller.checkBoardForMill(1) should be(false)
+        controller.checkBoardForMill(1) should be(false)
         controller.setStone(0, 1, 1)
         controller.setStone(0, 2, 1)
-        //controller.checkBoardForMill(1) should be(true)
+        controller.checkBoardForMill(1) should be(true)
       }
     }
   }

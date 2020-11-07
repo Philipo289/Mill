@@ -3,7 +3,6 @@ package model
 case class MaybeInput(input:Option[Any]){
   def validLength: MaybeInput = input match {
     case Some(in: String) => if(in.length == 2) copy(Some(in)) else copy(None)
-
     case None => copy(None)
   }
   def validInt: MaybeInput = input match  {
