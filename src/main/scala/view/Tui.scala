@@ -1,7 +1,7 @@
 package view
 
 import controller.{Controller, GameStatus}
-import model.{Board, Player, Stone}
+import model.{Board, Player, Stone, MaybeInput}
 import util.Observer
 
 import scala.io.StdIn.readLine
@@ -14,7 +14,7 @@ class Tui(controller: Controller) extends Observer{
   def processInputLine(input: String): Unit = {
     input match {
       case "q" =>
-      case "h" => println(helpBoard())
+      case "h" => println(helpBoard)
       case "n" =>
       case _ => println("No valid input. Please try again!")
     }
@@ -40,29 +40,20 @@ class Tui(controller: Controller) extends Observer{
         }
       }
       case _ => {
-        if(input forall Character.isDigit) {
-          input.toList.filter(c => c != ' ').map(c => c.toString.toInt) match {
-            case rect_num :: pos_num :: Nil => {
-              val validCoordinates = controller.checkInputCoordinates(rect_num, pos_num)
-              if (validCoordinates) {
-                if (controller.gameStatus == GameStatus.GPONE) {
-                  val validStone = controller.checkStoneSet(rect_num - 1, pos_num - 1)
-                  if (!validStone) {
-                    controller.setStone((rect_num - 1), (pos_num - 1), currentPlayer.color)
-                  }
-                  else {
-                    println(stoneWarning)
-                  }
-                }
-              }
-              else {
-                println(coordinationWarning)
-              }
-            }
+        val verifiedInput = MaybeInput(Some(input))
+          .validLength
+          .validInt
+          .validCoordinates
+          .validateStone(controller.board)
+          .input
+        if(verifiedInput != None){
+          verifiedInput match {
+            case Some(data: List[Int]) => controller.setStone((data(0) - 1), (data(1) - 1), currentPlayer.color)
+            case _ => println("Unknown data type")
           }
         }
         else{
-          println("No valid input. Please try again!")
+          println("Invalid")
         }
       }
     }
