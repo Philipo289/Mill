@@ -27,13 +27,13 @@ class MaybeInputSpec extends AnyWordSpec with Matchers{
         MaybeInput(Some("41")).validCoordinates.input should be(None)
         MaybeInput(Some("19")).validCoordinates.input should be(None)
         MaybeInput(Some("99")).validCoordinates.input should be(None)
-        MaybeInput(None).validInt.input should be(None)
+        MaybeInput(None).validCoordinates.input should be(None)
       }
       "check if stone is already set in board" in {
         MaybeInput(Some(List(1, 1))).validateStone(controller.board).input should be(Some(List(1, 1)))
         controller.setStone(0, 0, 1)
         MaybeInput(Some(List(1, 1))).validateStone(controller.board).input should be(None)
-        MaybeInput(None).validInt.input should be(None)
+        MaybeInput(None).validateStone(controller.board).input should be(None)
       }
     }
   }
