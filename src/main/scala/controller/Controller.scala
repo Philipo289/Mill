@@ -5,7 +5,7 @@ import model.{Board, Player}
 import util.Observable
 
 class Controller(var board: Board, var players: Vector[Player]) extends Observable{
-
+  var newMill = false
   var gameStatus: GameStatus = IDLE
 
   def create_empty_Board(): Unit = {
@@ -15,6 +15,7 @@ class Controller(var board: Board, var players: Vector[Player]) extends Observab
 
   def setStone(rect_num: Int, pos_num: Int, value: Int): Unit = {
       board = board.update_board(rect_num, pos_num, value)
+      newMill = board.check_board_for_mill(value)
       notifyObservers
   }
 
@@ -27,9 +28,7 @@ class Controller(var board: Board, var players: Vector[Player]) extends Observab
   def amountOfPlayerStones(color: Int): Int = {
     board.amount_of_played_stones(color)
   }
-  def checkBoardForMill(color: Int): Boolean = {
-    board.check_board_for_mill(color)
-  }
+  def checkBoardForMill: Boolean = newMill
 
   def checkStoneSet(rect_num: Int, pos_num: Int): Boolean = {
     board.check_stone_Set(rect_num, pos_num)

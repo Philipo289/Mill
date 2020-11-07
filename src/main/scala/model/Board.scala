@@ -50,7 +50,7 @@ case class Board(stones: BoardMatrix[Stone]) {
     val relevantIntFlatVector = Integer.parseInt(vecToString(relevantVector.flatMap(i => i.map(j => j.mkString))), 2)
     for(millVec <- millControlVector){
       if((millVec & relevantIntFlatVector) == millVec){
-        finalMillVector = finalMillVector | millVec
+        finalMillVector = (finalMillVector | millVec)
       }
     }
     println(finalMillVector)

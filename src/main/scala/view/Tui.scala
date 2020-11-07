@@ -48,7 +48,9 @@ class Tui(controller: Controller) extends Observer{
           .input
         if(verifiedInput != None){
           verifiedInput match {
-            case Some(data: List[Int]) => controller.setStone((data(0) - 1), (data(1) - 1), currentPlayer.color)
+            case Some(data: List[Int]) => {
+              controller.setStone((data(0) - 1), (data(1) - 1), currentPlayer.color)
+            }
             case _ => println("Unknown data type")
           }
         }
@@ -179,16 +181,24 @@ class Tui(controller: Controller) extends Observer{
     goodbyeString
   }
   override def update: Unit = {
-
     println(updateBoard(controller.board))
-    if (currentPlayer.color == 0) { currentPlayer = controller.players(0) }
-    else { currentPlayer = changePlayer(controller.players) }
-
-    //controller.checkBoardForMill(currentPlayer.color)
-
-    if(controller.amountOfPlayerStones(1) == 9 && controller.amountOfPlayerStones(2) == 9) {
-      println(gamePhaseTwoBegin())
+    if (currentPlayer.color == 0) {
+      currentPlayer = controller.players(0)
     }
-    else { println(playerInitTurns) }
+    else {
+      currentPlayer = changePlayer(controller.players)
+    }
+
+    if (controller.checkBoardForMill) {
+      println("New Mill on Board")
+    }
+    else{
+      if (controller.amountOfPlayerStones(1) == 9 && controller.amountOfPlayerStones(2) == 9) {
+        println(gamePhaseTwoBegin())
+      }
+      else {
+        println(playerInitTurns)
+      }
+    }
   }
 }
