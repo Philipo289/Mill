@@ -43,6 +43,11 @@ class ControllerSpec extends AnyWordSpec with Matchers{
         controller.players(1).name should be("Name 2")
         controller.players(1).color should be(2)
       }
+      "notify its Observer after removing a stone" in {
+        controller.remove_stone(0, 0, 0)
+        observer.updated should be(true)
+        controller.board.stone(0, 0).color should be(0)
+      }
     }
   }
 }
