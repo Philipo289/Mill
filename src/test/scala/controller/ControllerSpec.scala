@@ -14,6 +14,10 @@ class ControllerSpec extends AnyWordSpec with Matchers{
         var updated: Boolean = false
         def isUpdated:Boolean = updated
         override def update: Unit = updated = true
+
+        var playerupdated: Boolean = false;
+        def isPlayerUpdated:Boolean = playerupdated
+        override def updatePlayer: Unit = playerupdated = true
       }
       controller.add(observer)
       "notify its Observer after creation" in {
