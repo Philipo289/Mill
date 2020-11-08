@@ -1,7 +1,6 @@
 package model
 
 case class Board(stones: BoardMatrix[Stone]) {
-  var playerMillVector: Vector[Int] = Vector(0, 0)
 
   def this() = this(new BoardMatrix[Stone](Stone(0)))
 
@@ -10,9 +9,15 @@ case class Board(stones: BoardMatrix[Stone]) {
   def update_board(rectangle_num: Int, position_num:Int, color:Int) : Board ={
     copy(stones.replaceStone(rectangle_num, position_num, Stone(color)))
   }
+
   def check_stone_Set(rectangle_num: Int, position_num:Int): Boolean ={
     stones.stone(rectangle_num, position_num).isSet
   }
+
+  def check_stone(rectangle_num: Int, position_num:Int): Stone ={
+    stones.stone(rectangle_num, position_num)
+  }
+
   def amount_of_played_stones(color: Int): Int = {
     stones.amountOfPlayedStones(color)
   }
@@ -25,7 +30,7 @@ case class Board(stones: BoardMatrix[Stone]) {
   def vecToString(vec: Vector[String]): String = vec.mkString
 
 
-  def check_board_for_mill(color: Int): Boolean = {
+  def check_board_for_mill(oldBoard: Board, color: Int): Boolean = {
     val millControlVector = Vector(
       Integer.parseInt("111000000000000000000000", 2),
       Integer.parseInt("001110000000000000000000", 2),
@@ -44,20 +49,17 @@ case class Board(stones: BoardMatrix[Stone]) {
       Integer.parseInt("000001000000010000000100", 2),
       Integer.parseInt("000000010000000100000001", 2))
 
-    var finalMillVector = Integer.parseInt("000000000000000000000000", 2)
+    val oldBoardVector = oldBoard.stones.rows.map(i => i.map(j => setup_relevant_Stones(j, color)))
+    val oldBoardIntFlatVector = Integer.parseInt(vecToString(oldBoardVector.flatMap(i => i.map(j => j.mkString))), 2)
 
     val relevantVector = stones.rows.map(i => i.map(j => setup_relevant_Stones(j, color)))
     val relevantIntFlatVector = Integer.parseInt(vecToString(relevantVector.flatMap(i => i.map(j => j.mkString))), 2)
-    for(millVec <- millControlVector){
-      if((millVec & relevantIntFlatVector) == millVec){
-        finalMillVector = (finalMillVector | millVec)
-      }
-    }
-    println(finalMillVector)
-    if(finalMillVector != 0){
-      playerMillVector = playerMillVector.updated(color - 1, finalMillVector)
-      true
-    }
-    else{ false }
+
+    val oldMills = millControlVector.filter(i => (i & oldBoardIntFlatVector) == i)
+    val newMills = millControlVector.filter(i => (i & relevantIntFlatVector) == i)
+
+    val newMillCheck = newMills.map(n => if (oldMills.contains(n)) false else true)
+
+    if (newMillCheck.contains(true)) true else false
   }
 }

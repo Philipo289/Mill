@@ -184,21 +184,29 @@ class Tui(controller: Controller) extends Observer{
     println(updateBoard(controller.board))
     if (currentPlayer.color == 0) {
       currentPlayer = controller.players(0)
+      println(playerInitTurns)
+    }
+    if (controller.newMill) {
+      println(s"New Mill on Board\n${currentPlayer.name} what stone do you want to remove?")
+      val in = readLine()
+      in match {
+        case _ => in.toList.filter(c => c != ' ').map(c => c.toString.toInt) match {
+          case rect_num :: pos_num :: Nil => {
+            println(controller.remove_stone(rect_num - 1, pos_num - 1, currentPlayer.color))
+          }
+        }
+      }
+    }
+  }
+
+  override def updatePlayer: Unit = {
+    currentPlayer = changePlayer(controller.players)
+    if (controller.amountOfPlayerStones(1) == controller.players(0).MAX_STONE &&
+      controller.amountOfPlayerStones(2) == controller.players(1).MAX_STONE) {
+      println(gamePhaseTwoBegin())
     }
     else {
-      currentPlayer = changePlayer(controller.players)
-    }
-
-    if (controller.checkBoardForMill) {
-      println("New Mill on Board")
-    }
-    else{
-      if (controller.amountOfPlayerStones(1) == 9 && controller.amountOfPlayerStones(2) == 9) {
-        println(gamePhaseTwoBegin())
-      }
-      else {
-        println(playerInitTurns)
-      }
+      println(playerInitTurns)
     }
   }
 }
