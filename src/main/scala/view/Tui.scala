@@ -10,6 +10,7 @@ class Tui(controller: Controller) extends Observer{
 
   controller.add(this)
   var currentPlayer = new Player("", 0, 0)
+  var gamePhaseTwoToggle = false;
 
   def processInputLine(input: String): Unit = {
     input match {
@@ -65,7 +66,13 @@ class Tui(controller: Controller) extends Observer{
               .validLength
               .validInt
               .validCoordinates
-              .validateStone(controller.board)
+
+            if( !gamePhaseTwoToggle){
+              // Welcher Stein
+            }
+            else{
+              // Wohin
+            }
           }
         }
 
@@ -123,8 +130,14 @@ class Tui(controller: Controller) extends Observer{
     playerTurnString
   }
   def playerGamePhaseTwoTurns(): String ={
-    val playerTurnString = s"\n${currentPlayer.name} choose the stone you want to move:"
-    playerTurnString
+    if ( !gamePhaseTwoToggle) {
+      gamePhaseTwoToggle = true
+      s"\n${currentPlayer.name} choose the stone you want to move:"
+    }
+    else{
+      gamePhaseTwoToggle = false
+      s"\n${currentPlayer.name} where do you want to place it:"
+    }
   }
 
   def color_matcher(in:Stone):String = {
@@ -216,7 +229,7 @@ class Tui(controller: Controller) extends Observer{
   }
 
   override def updatePlayer: Unit = {
-    currentPlayer = changePlayer(controller.players)
+    if (!gamePhaseTwoToggle)  currentPlayer = changePlayer(controller.players)
     controller.gameStatus match {
       case GameStatus.GPONE => {
         if (controller.amountOfPlayerStones(1) == controller.players(0).MAX_STONE &&

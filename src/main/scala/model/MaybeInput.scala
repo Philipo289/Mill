@@ -36,4 +36,13 @@ case class MaybeInput(input:Option[Any]){
       }
       case None => copy(None)
     }
+  def findValidNeighbors(board: Board): MaybeInput = input match {
+    case Some(in: List[Int]) => {
+
+
+
+      copy(Some(in))
+    }
+    case None => copy(None)
+  }
 }
