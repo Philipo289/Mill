@@ -7,10 +7,8 @@ import util.Observer
 import scala.io.StdIn.readLine
 
 class Tui(controller: Controller) extends Observer{
-
   controller.add(this)
   var currentPlayer = new Player("", 0, 0)
-  var gamePhaseTwoToggle = false;
 
   def processInputLine(input: String): Unit = {
     input match {
@@ -33,13 +31,6 @@ class Tui(controller: Controller) extends Observer{
     input match {
       case "q" =>
       case "h" => println(helpBoard())
-      case "r" => println("Which stone u want to remove?")
-        val input_remove = readLine()
-        input_remove match {
-        case _ => input_remove.toList.filter(c => c != ' ').map(c => c.toString.toInt) match {
-          case rect_num :: pos_num :: Nil => controller.remove_stone((rect_num - 1), (pos_num - 1), 0)
-        }
-      }
       case _ =>
         controller.gameStatus match {
           case GameStatus.GPONE =>
@@ -65,14 +56,13 @@ class Tui(controller: Controller) extends Observer{
               .validCoordinates
               .checkStone(controller.board, currentPlayer.color)
               .input
-            if(verifiedInput.isDefined)
+            if(verifiedInput.isDefined) {
+              verifiedInput match {
+                case Some(data: List[Int]) =>
+                case _ =>
+              }
+            }
 
-            if( !gamePhaseTwoToggle){
-              // Welcher Stein
-            }
-            else{
-              // Wohin
-            }
         }
     }
   }
@@ -127,14 +117,11 @@ class Tui(controller: Controller) extends Observer{
     playerTurnString
   }
   def playerGamePhaseTwoTurns(): String ={
-    if ( !gamePhaseTwoToggle) {
-      gamePhaseTwoToggle = true
-      s"\n${currentPlayer.name} choose the stone you want to move:"
-    }
-    else{
-      gamePhaseTwoToggle = false
-      s"\n${currentPlayer.name} where do you want to place it:"
-    }
+    val str = ""
+
+        //s"\n${currentPlayer.name} where do you want to place it:"
+        //s"\n${currentPlayer.name} choose the stone you want to move:"
+    str
   }
 
   def color_matcher(in:Stone):String = {
@@ -231,9 +218,8 @@ class Tui(controller: Controller) extends Observer{
           println(gamePhaseTwoBegin())
           println(playerGamePhaseTwoTurns())
         }
-        else {
-          println(playerGamePhaseOneTurns())
-        }
+        else println(playerGamePhaseOneTurns())
+
       case GameStatus.GPTWO => println(playerGamePhaseTwoTurns())
       case _ =>
     }
