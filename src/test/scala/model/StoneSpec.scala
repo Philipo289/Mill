@@ -6,7 +6,7 @@ import org.scalatest.wordspec.AnyWordSpec
 class StoneSpec extends AnyWordSpec with Matchers{
     "A Stone" when {
       "not set to any color" should {
-        val emptyStone = Stone(0)
+        val emptyStone = Stone(0, false)
         "have value 0" in {
           emptyStone.color should be(0)
         }
@@ -15,7 +15,7 @@ class StoneSpec extends AnyWordSpec with Matchers{
         }
       }
       "set to specific color" should {
-        val playerStone = Stone(1)
+        val playerStone = Stone(1, false)
         "return that color" in {
           playerStone.color should be(1)
         }

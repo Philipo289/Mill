@@ -2,12 +2,12 @@ package model
 
 case class Board(stones: BoardMatrix[Stone]) {
 
-  def this() = this(new BoardMatrix[Stone](Stone(0)))
+  def this() = this(new BoardMatrix[Stone](Stone(0, false)))
 
   def stone(rect_num: Int, pos_num: Int) = stones.stone(rect_num, pos_num)
 
   def update_board(rectangle_num: Int, position_num:Int, color:Int) : Board ={
-    copy(stones.replaceStone(rectangle_num, position_num, Stone(color)))
+    copy(stones.replaceStone(rectangle_num, position_num, Stone(color, false)))
   }
 
   def check_stone_Set(rectangle_num: Int, position_num:Int): Boolean ={
@@ -27,6 +27,35 @@ case class Board(stones: BoardMatrix[Stone]) {
     else {"0"}
   }
 
+  def setup_stone_mill_condition (in: Int) ={
+    val listOfMills = convert_patternNum_into_Tuple(in)
+    for((rect_num, position_num) <- listOfMills){
+      stone(rect_num, position_num).mill = true
+    }
+
+  }
+
+  def convert_patternNum_into_Tuple(in: Int): List[(Int, Int)] ={
+    var list = List()
+    in match {
+      case 0 => List((0, 0), (0, 1), (0, 2))
+      case 1 => List((0, 2), (0, 3), (0, 4))
+      case 2 => List((0,4), (0,5), (0,6))
+      case 3 => List((0,6), (0,7),(0,0))
+      case 4 => List((1, 0), (1, 1), (1, 2))
+      case 5 => List((1, 2), (1, 3), (1, 4))
+      case 6 => List((1,4), (1,5), (1,6))
+      case 7 => List((1,6), (1,7),(1,0))
+      case 8 => List((2, 0), (2, 1), (2, 2))
+      case 9 => List((2, 2), (2, 3), (2, 4))
+      case 10 => List((2,4), (2,5), (2,6))
+      case 11=> List((2,6), (2,7),(2,0))
+      case 12 => List((0,1), (1,1), (2,1))
+      case 13 => List((0,3), (1,3), (2,3))
+      case 14 => List((0,5), (1,5), (2,5))
+      case 15 => List((0,7), (1,7), (2,7))
+    }
+  }
   def vecToString(vec: Vector[String]): String = vec.mkString
 
 
@@ -57,8 +86,15 @@ case class Board(stones: BoardMatrix[Stone]) {
 
     val oldMills = millControlVector.filter(i => (i & oldBoardIntFlatVector) == i)
     val newMills = millControlVector.filter(i => (i & relevantIntFlatVector) == i)
+    val newMillsMap= millControlVector.map(i => (i & relevantIntFlatVector))
 
     val newMillCheck = newMills.map(n => if (oldMills.contains(n)) false else true)
+    for {
+      mill_position <- newMillsMap
+      index <- newMillsMap.indices
+      if mill_position>0}{
+      setup_stone_mill_condition(index)
+    }
 
     if (newMillCheck.contains(true)) true else false
   }

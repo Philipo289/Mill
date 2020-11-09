@@ -43,7 +43,6 @@ class Controller(var board: Board, var players: Vector[Player]) extends Observab
 
   //def show_possible_moves()
 
-  //def move_stone()
 
   def getCompetitorStone(color: Int): Int ={
     color match {
@@ -56,12 +55,34 @@ class Controller(var board: Board, var players: Vector[Player]) extends Observab
   def remove_stone(rect_num: Int, pos_num: Int, color: Int): Boolean = {
     val compStoneColor = getCompetitorStone(color)
 
-    if(board.stone(rect_num, pos_num) == Stone(compStoneColor)) {
+    if(board.stone(rect_num, pos_num) == Stone(compStoneColor, false)) {
       board = board.update_board(rect_num, pos_num, 0)
       println(board)
       players(compStoneColor - 1).MAX_STONE -= 1
       newMill = false;
       notifyObservers
+      true
+    }
+    else{
+      false
+    }
+  }
+
+  def move_stone(rectangle_num: Int, position: Int, stone: Int, rectangle_num_new:Int, position_new:Int): Boolean ={
+    if(select_stone(rectangle_num, position, stone)==true){
+      board = board.update_board(rectangle_num, position, 0)
+      board = board.update_board(rectangle_num_new, position_new, stone)
+      true
+    }
+    else{
+      false
+    }
+
+  }
+
+
+  def select_stone(rectangle_num: Int, position : Int, color: Int): Boolean = {
+    if(Stone(color, false) == board.stones.stone(rectangle_num, position)){
       true
     }
     else{

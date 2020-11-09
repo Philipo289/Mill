@@ -11,7 +11,7 @@ case class BoardMatrix[T](rows: Vector[Vector[T]]) {
 
   def amountOfPlayedStones(color: Int): Int = {
     val flatVector = rows.flatMap(i => i.map(j => j))
-    val filteredFlatVector = flatVector.filter(i => i == Stone(color))
+    val filteredFlatVector = flatVector.filter(i => i == Stone(color, false))
     filteredFlatVector.length
   }
 }
