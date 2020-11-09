@@ -15,7 +15,7 @@ class Tui(controller: Controller) extends Observer{
   def processInputLine(input: String): Unit = {
     input match {
       case "q" =>
-      case "h" => println(helpBoard)
+      case "h" => println(helpBoard())
       case "n" =>
       case _ => println("No valid input. Please try again!")
     }
@@ -32,7 +32,7 @@ class Tui(controller: Controller) extends Observer{
   def processGameInputLine(input: String): Unit = {
     input match {
       case "q" =>
-      case "h" => println(helpBoard)
+      case "h" => println(helpBoard())
       case "r" => println("Which stone u want to remove?")
         val input_remove = readLine()
         input_remove match {
@@ -40,32 +40,32 @@ class Tui(controller: Controller) extends Observer{
           case rect_num :: pos_num :: Nil => controller.remove_stone((rect_num - 1), (pos_num - 1), 0)
         }
       }
-      case _ => {
+      case _ =>
         controller.gameStatus match {
-          case GameStatus.GPONE =>{
+          case GameStatus.GPONE =>
             val verifiedInput = MaybeInput(Some(input))
               .validLength
               .validInt
               .validCoordinates
               .validateStone(controller.board)
               .input
-            if(verifiedInput != None){
+            if(verifiedInput.isDefined){
               verifiedInput match {
-                case Some(data: List[Int]) => {
-                  controller.setStone((data(0) - 1), (data(1) - 1), currentPlayer.color)
-                }
+                case Some(data: List[Int]) =>
+                  controller.setStone((data.head - 1), (data(1) - 1), currentPlayer.color)
                 case _ => println("Unknown data type")
               }
             }
-            else{
-              println("Invalid")
-            }
-          }
-          case GameStatus.GPTWO => {
+            else println("Invalid")
+
+          case GameStatus.GPTWO =>
             val verifiedInput = MaybeInput(Some(input))
               .validLength
               .validInt
               .validCoordinates
+              .checkStone(controller.board, currentPlayer.color)
+              .input
+            if(verifiedInput.isDefined)
 
             if( !gamePhaseTwoToggle){
               // Welcher Stein
@@ -73,10 +73,7 @@ class Tui(controller: Controller) extends Observer{
             else{
               // Wohin
             }
-          }
         }
-
-      }
     }
   }
   def welcomeScreen(): String ={
@@ -213,17 +210,14 @@ class Tui(controller: Controller) extends Observer{
     println(updateBoard(controller.board))
     if (currentPlayer.color == 0) {
       currentPlayer = controller.players(0)
-      println(playerGamePhaseOneTurns)
+      println(playerGamePhaseOneTurns())
     }
     if (controller.newMill) {
       println(s"New Mill on Board\n${currentPlayer.name} what stone do you want to remove?")
-      val in = readLine()
-      in match {
-        case _ => in.toList.filter(c => c != ' ').map(c => c.toString.toInt) match {
-          case rect_num :: pos_num :: Nil => {
-            println(controller.remove_stone(rect_num - 1, pos_num - 1, currentPlayer.color))
-          }
-        }
+      val input = readLine()
+      val result = MaybeInput(Some(input)).validLength.validInt.validCoordinates.input
+      if(result.isDefined) result match {
+        case Some(data: List[Int]) => println(controller.remove_stone(data(0) - 1, data(1) - 1, currentPlayer.color))
       }
     }
   }
@@ -231,19 +225,16 @@ class Tui(controller: Controller) extends Observer{
   override def updatePlayer: Unit = {
     currentPlayer = changePlayer(controller.players)
     controller.gameStatus match {
-      case GameStatus.GPONE => {
+      case GameStatus.GPONE =>
         if (controller.amountOfPlayerStones(1) == controller.players(0).MAX_STONE &&
           controller.amountOfPlayerStones(2) == controller.players(1).MAX_STONE) {
           println(gamePhaseTwoBegin())
-          println(playerGamePhaseTwoTurns)
+          println(playerGamePhaseTwoTurns())
         }
         else {
-          println(playerGamePhaseOneTurns)
+          println(playerGamePhaseOneTurns())
         }
-      }
-      case GameStatus.GPTWO => {
-        println(playerGamePhaseTwoTurns)
-      }
+      case GameStatus.GPTWO => println(playerGamePhaseTwoTurns())
       case _ =>
     }
   }

@@ -40,7 +40,7 @@ case class MaybeInput(input:Option[Any]){
     }
     case None => copy(None)
   }
-  def checkOwnStone(board: Board, color: Int): MaybeInput = input match {
+  def checkStone(board: Board, color: Int): MaybeInput = input match {
     case Some(in: List[Int]) => {
       if(board.stone(in(0), in(1)).color == color) copy(Some(in)) else copy(None)
     }
