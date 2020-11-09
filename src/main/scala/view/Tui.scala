@@ -1,14 +1,17 @@
 package view
 
 import controller.{Controller, GameStatus}
-import model.{Board, Player, Stone, MaybeInput}
+import model.{Board, MaybeInput, Player, Stone}
 import util.Observer
 
+import scala.collection.mutable.ListBuffer
 import scala.io.StdIn.readLine
 
 class Tui(controller: Controller) extends Observer{
   controller.add(this)
-  var currentPlayer = new Player("", 0, 0)
+  var currentPlayer = Player("", 0, 0)
+  var gpTwoSeparator = false
+  var gpTwoList = new ListBuffer[(Int, Int)]()
 
   def processInputLine(input: String): Unit = {
     input match {
@@ -40,29 +43,58 @@ class Tui(controller: Controller) extends Observer{
               .validCoordinates
               .validateStone(controller.board)
               .input
-            if(verifiedInput.isDefined){
+
+            if (verifiedInput.isDefined) {
               verifiedInput match {
                 case Some(data: List[Int]) =>
                   controller.setStone((data.head - 1), (data(1) - 1), currentPlayer.color)
-                case _ => println("Unknown data type")
+                case _ =>
               }
             }
             else println("Invalid")
 
           case GameStatus.GPTWO =>
-            val verifiedInput = MaybeInput(Some(input))
-              .validLength
-              .validInt
-              .validCoordinates
-              .checkStone(controller.board, currentPlayer.color)
-              .input
-            if(verifiedInput.isDefined) {
-              verifiedInput match {
-                case Some(data: List[Int]) =>
-                case _ =>
+            if (!gpTwoSeparator) {
+              val verifiedInput = MaybeInput(Some(input))
+                .validLength
+                .validInt
+                .validCoordinates
+                .checkStone(controller.board, currentPlayer.color)
+                .input
+              if (verifiedInput.isDefined) {
+                verifiedInput match {
+                  case Some(data: List[Int]) =>
+                    gpTwoList += Tuple2(data(0) - 1, data(1) - 1)
+                    gpTwoSeparator = !gpTwoSeparator
+                    println(playerGamePhaseTwoTurns())
+                  case _ =>
+                }
               }
+              else println("Invalid")
+            }
+            else {
+              val verifiedInput = MaybeInput(Some(input))
+                .validLength
+                .validInt
+                .validCoordinates
+                .validateStone(controller.board)
+                .input
+              if (verifiedInput.isDefined) {
+                verifiedInput match {
+                  case Some(data: List[Int]) =>
+                    gpTwoList += Tuple2(data(0) - 1, data(1) - 1)
+                    val list = gpTwoList.toList
+                    println(list)
+                    controller.moveStone(list(0), list(1), currentPlayer.color)
+                    gpTwoList = new ListBuffer[(Int, Int)]
+                    gpTwoSeparator = !gpTwoSeparator
+                  case _ =>
+                }
+              }
+              else println("Invalid")
             }
 
+          case GameStatus.GPTHREE =>
         }
     }
   }
@@ -101,6 +133,11 @@ class Tui(controller: Controller) extends Observer{
     val gpTwoString = GameStatus.message(controller.gameStatus)
     gpTwoString
   }
+  def gamePhaseThreeBegin(): String = {
+    controller.gameStatus = GameStatus.GPTHREE
+    val gpThreeString = GameStatus.message(controller.gameStatus)
+    gpThreeString
+  }
 
   def stoneWarning(): String = {
     val warningString = "Stone location already used.\nPlease select another free coordinates."
@@ -117,10 +154,16 @@ class Tui(controller: Controller) extends Observer{
     playerTurnString
   }
   def playerGamePhaseTwoTurns(): String ={
+    if( !gpTwoSeparator)
+      s"\n${currentPlayer.name} choose the stone you want to move:"
+    else
+      s"\n${currentPlayer.name} where do you want to place it:"
+  }
+  def playerGamePhaseThreeTurns(): String ={
     val str = ""
 
-        //s"\n${currentPlayer.name} where do you want to place it:"
-        //s"\n${currentPlayer.name} choose the stone you want to move:"
+    //s"\n${currentPlayer.name} where do you want to place it:"
+    //s"\n${currentPlayer.name} choose the stone you want to move:"
     str
   }
 
@@ -203,9 +246,12 @@ class Tui(controller: Controller) extends Observer{
       println(s"New Mill on Board\n${currentPlayer.name} what stone do you want to remove?")
       val input = readLine()
       val result = MaybeInput(Some(input)).validLength.validInt.validCoordinates.input
-      if(result.isDefined) result match {
-        case Some(data: List[Int]) => println(controller.remove_stone(data(0) - 1, data(1) - 1, currentPlayer.color))
+      if (result.isDefined) {
+        result match {
+          case Some(data: List[Int]) => println(controller.remove_stone(data(0) - 1, data(1) - 1, currentPlayer.color))
+        }
       }
+      else println("Invalid")
     }
   }
 
@@ -220,7 +266,13 @@ class Tui(controller: Controller) extends Observer{
         }
         else println(playerGamePhaseOneTurns())
 
-      case GameStatus.GPTWO => println(playerGamePhaseTwoTurns())
+      case GameStatus.GPTWO =>
+        if(controller.players(0).MAX_STONE == 3 || controller.players(1).MAX_STONE == 3) {
+          println(gamePhaseThreeBegin())
+          println(playerGamePhaseThreeTurns())
+        } else println(playerGamePhaseTwoTurns())
+
+      case GameStatus.GPTHREE =>
       case _ =>
     }
   }
