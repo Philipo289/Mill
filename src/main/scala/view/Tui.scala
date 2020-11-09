@@ -40,23 +40,35 @@ class Tui(controller: Controller) extends Observer{
         }
       }
       case _ => {
-        val verifiedInput = MaybeInput(Some(input))
-          .validLength
-          .validInt
-          .validCoordinates
-          .validateStone(controller.board)
-          .input
-        if(verifiedInput != None){
-          verifiedInput match {
-            case Some(data: List[Int]) => {
-              controller.setStone((data(0) - 1), (data(1) - 1), currentPlayer.color)
+        controller.gameStatus match {
+          case GameStatus.GPONE =>{
+            val verifiedInput = MaybeInput(Some(input))
+              .validLength
+              .validInt
+              .validCoordinates
+              .validateStone(controller.board)
+              .input
+            if(verifiedInput != None){
+              verifiedInput match {
+                case Some(data: List[Int]) => {
+                  controller.setStone((data(0) - 1), (data(1) - 1), currentPlayer.color)
+                }
+                case _ => println("Unknown data type")
+              }
             }
-            case _ => println("Unknown data type")
+            else{
+              println("Invalid")
+            }
+          }
+          case GameStatus.GPTWO => {
+            val verifiedInput = MaybeInput(Some(input))
+              .validLength
+              .validInt
+              .validCoordinates
+              .validateStone(controller.board)
           }
         }
-        else{
-          println("Invalid")
-        }
+
       }
     }
   }
@@ -105,9 +117,13 @@ class Tui(controller: Controller) extends Observer{
     warningString
   }
 
-  def playerInitTurns(): String ={
+  def playerGamePhaseOneTurns(): String ={
     val playerTurnString = s"\n${currentPlayer.name} it is your turn Place one stone on a specific coordinate " + "" +
       s"(${controller.amountOfPlayerStones(currentPlayer.color) + 1} of ${currentPlayer.MAX_STONE}):"
+    playerTurnString
+  }
+  def playerGamePhaseTwoTurns(): String ={
+    val playerTurnString = s"\n${currentPlayer.name} choose the stone you want to move:"
     playerTurnString
   }
 
@@ -184,7 +200,7 @@ class Tui(controller: Controller) extends Observer{
     println(updateBoard(controller.board))
     if (currentPlayer.color == 0) {
       currentPlayer = controller.players(0)
-      println(playerInitTurns)
+      println(playerGamePhaseOneTurns)
     }
     if (controller.newMill) {
       println(s"New Mill on Board\n${currentPlayer.name} what stone do you want to remove?")
@@ -206,13 +222,14 @@ class Tui(controller: Controller) extends Observer{
         if (controller.amountOfPlayerStones(1) == controller.players(0).MAX_STONE &&
           controller.amountOfPlayerStones(2) == controller.players(1).MAX_STONE) {
           println(gamePhaseTwoBegin())
+          println(playerGamePhaseTwoTurns)
         }
         else {
-          println(playerInitTurns)
+          println(playerGamePhaseOneTurns)
         }
       }
       case GameStatus.GPTWO => {
-
+        println(playerGamePhaseTwoTurns)
       }
       case _ =>
     }
