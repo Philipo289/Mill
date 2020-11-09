@@ -84,7 +84,6 @@ class Tui(controller: Controller) extends Observer{
                   case Some(data: List[Int]) =>
                     gpTwoList += Tuple2(data(0) - 1, data(1) - 1)
                     val list = gpTwoList.toList
-                    println(list)
                     controller.moveStone(list(0), list(1), currentPlayer.color)
                     gpTwoList = new ListBuffer[(Int, Int)]
                     gpTwoSeparator = !gpTwoSeparator
@@ -155,9 +154,9 @@ class Tui(controller: Controller) extends Observer{
   }
   def playerGamePhaseTwoTurns(): String ={
     if( !gpTwoSeparator)
-      s"\n${currentPlayer.name} choose the stone you want to move:"
+      s"${currentPlayer.name} choose the stone you want to move:"
     else
-      s"\n${currentPlayer.name} where do you want to place it:"
+      s"${currentPlayer.name} where do you want to place it:"
   }
   def playerGamePhaseThreeTurns(): String ={
     val str = ""
@@ -165,6 +164,12 @@ class Tui(controller: Controller) extends Observer{
     //s"\n${currentPlayer.name} where do you want to place it:"
     //s"\n${currentPlayer.name} choose the stone you want to move:"
     str
+  }
+
+  def currentGameScore(): String ={
+    val gameScore = s"                                         " +
+      s"${controller.players(0).MAX_STONE} vs. ${controller.players(1).MAX_STONE}\n"
+    gameScore
   }
 
   def color_matcher(in:Stone):String = {
@@ -237,6 +242,7 @@ class Tui(controller: Controller) extends Observer{
     goodbyeString
   }
   override def update: Unit = {
+    if(controller.gameStatus == GameStatus.GPTWO) println(currentGameScore())
     println(updateBoard(controller.board))
     if (currentPlayer.color == 0) {
       currentPlayer = controller.players(0)
