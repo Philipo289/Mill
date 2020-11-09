@@ -57,9 +57,10 @@ case class MaybeInput(input:Option[Any]){
 
   def checkStone(board: Board, color: Int): MaybeInput = input match {
     case Some(in: List[Int]) => {
-      if(board.stone(in(0) - 1, in(1) - 1).color == color) copy(Some(in)) else copy(None)
+      if (board.stone(in(0) - 1, in(1) - 1).color == color) copy(Some(in)) else copy(None)
     }
     case None => copy(None)
+  }
 
   def legal_moves_in_rectangle(in: List[Int])={
 
