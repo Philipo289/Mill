@@ -12,6 +12,14 @@ class Controller(var board: Board, var players: Vector[Player]) extends Observab
     board = new Board
     notifyObservers
   }
+  def moveStone(old_position: (Int, Int), new_position: (Int, Int), color: Int): Unit = {
+    val oldBoard = board;
+    board = board.update_board(old_position._1, old_position._2, 0)
+    board = board.update_board(new_position._1, new_position._2, color)
+    newMill = board.check_board_for_mill(oldBoard, color)
+    notifyObservers
+    notifyPlayerObserver
+  }
 
   def setStone(rect_num: Int, pos_num: Int, value: Int): Unit = {
       val oldBoard = board;

@@ -27,12 +27,7 @@ case class MaybeInput(input:Option[Any]){
   }
   def validateStone(board: Board): MaybeInput = input match {
       case Some(in: List[Int]) => {
-          if ( !board.check_stone_Set(in(0) - 1, in(1) - 1)) {
-            copy(Some(in))
-          }
-          else {
-            copy(None)
-          }
+          if ( !board.check_stone_Set(in(0) - 1, in(1) - 1)) copy(Some(in)) else copy(None)
       }
       case None => copy(None)
     }
@@ -42,6 +37,12 @@ case class MaybeInput(input:Option[Any]){
 
 
       copy(Some(in))
+    }
+    case None => copy(None)
+  }
+  def checkOwnStone(board: Board, color: Int): MaybeInput = input match {
+    case Some(in: List[Int]) => {
+      if(board.stone(in(0), in(1)).color == color) copy(Some(in)) else copy(None)
     }
     case None => copy(None)
   }

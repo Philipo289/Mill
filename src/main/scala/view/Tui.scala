@@ -229,7 +229,7 @@ class Tui(controller: Controller) extends Observer{
   }
 
   override def updatePlayer: Unit = {
-    if (!gamePhaseTwoToggle)  currentPlayer = changePlayer(controller.players)
+    currentPlayer = changePlayer(controller.players)
     controller.gameStatus match {
       case GameStatus.GPONE => {
         if (controller.amountOfPlayerStones(1) == controller.players(0).MAX_STONE &&
