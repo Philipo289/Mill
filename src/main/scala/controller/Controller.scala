@@ -1,21 +1,32 @@
 package controller
 
 import controller.GameStatus._
-import model.{Board, Player}
+import model.{Board, Player, Stone}
 import util.Observable
 
 class Controller(var board: Board, var players: Vector[Player]) extends Observable{
-
+  var newMill = false
   var gameStatus: GameStatus = IDLE
 
   def create_empty_Board(): Unit = {
     board = new Board
     notifyObservers
   }
+  def moveStone(old_position: (Int, Int), new_position: (Int, Int), color: Int): Unit = {
+    val oldBoard = board;
+    board = board.update_board(old_position._1, old_position._2, 0)
+    board = board.update_board(new_position._1, new_position._2, color)
+    newMill = board.check_board_for_mill(oldBoard, color)
+    notifyObservers
+    notifyPlayerObserver
+  }
 
   def setStone(rect_num: Int, pos_num: Int, value: Int): Unit = {
+      val oldBoard = board;
       board = board.update_board(rect_num, pos_num, value)
+      newMill = board.check_board_for_mill(oldBoard, value)
       notifyObservers
+      notifyPlayerObserver
   }
 
   def checkInputCoordinates(rect_num: Int, pos_num: Int): Boolean = {
@@ -47,9 +58,28 @@ class Controller(var board: Board, var players: Vector[Player]) extends Observab
 
   //def move_stone()
 
-  def remove_stone(rect_num: Int, pos_num: Int, color: Int): Unit = {
-    board = board.update_board(rect_num, pos_num, color)
-    notifyObservers
+  def getCompetitorStone(color: Int): Int ={
+    color match {
+      case 1 => 2
+      case 2 => 1
+      case _ => 0
+    }
+  }
+
+  def remove_stone(rect_num: Int, pos_num: Int, color: Int): Boolean = {
+    val compStoneColor = getCompetitorStone(color)
+
+    if(board.stone(rect_num, pos_num) == Stone(compStoneColor)) {
+      board = board.update_board(rect_num, pos_num, 0)
+      println(board)
+      players(compStoneColor - 1).MAX_STONE -= 1
+      newMill = false;
+      notifyObservers
+      true
+    }
+    else{
+      false
+    }
   }
 
   //def select_stone()

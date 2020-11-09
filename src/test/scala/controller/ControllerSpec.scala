@@ -14,6 +14,10 @@ class ControllerSpec extends AnyWordSpec with Matchers{
         var updated: Boolean = false
         def isUpdated:Boolean = updated
         override def update: Unit = updated = true
+
+        var playerupdated: Boolean = false;
+        def isPlayerUpdated:Boolean = playerupdated
+        override def updatePlayer: Unit = playerupdated = true
       }
       controller.add(observer)
       "notify its Observer after creation" in {
@@ -43,16 +47,15 @@ class ControllerSpec extends AnyWordSpec with Matchers{
         controller.players(1).name should be("Name 2")
         controller.players(1).color should be(2)
       }
-      "notify its Observer after removing a stone" in {
-        controller.remove_stone(0, 0, 0)
-        observer.updated should be(true)
-        controller.board.stone(0, 0).color should be(0)
+      "check if stone is set" in {
+        controller.checkStoneSet(0, 0) should be(true)
+        controller.checkStoneSet(0, 1) should be(false)
       }
-      "return true for checkStoneSet" in{
-        controller.setStone(0,0,1)
-        controller.checkStoneSet(0,0) should be(true)
+      "remove specific competitor stone" in {
+        controller.remove_stone(0, 0, 2) should be(true)
+        controller.remove_stone(0, 0, 1) should be(false)
+        controller.remove_stone(0, 1, 1) should be(false)
       }
-
     }
   }
 }

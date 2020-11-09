@@ -13,8 +13,8 @@ class PlayerSpec extends AnyWordSpec with Matchers{
       "have a color" in {
         player.color should be(1)
       }
-      "have max stones" in {
-        player.MAX_STONES should be(9)
+      "have stones a the beginning" in {
+        player.MAX_STONE should be(9)
       }
     }
   }

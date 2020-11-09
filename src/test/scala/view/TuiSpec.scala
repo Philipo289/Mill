@@ -1,7 +1,7 @@
 package view
 
 import controller.Controller
-import model.{Board, Player}
+import model.{Board, Player, Stone}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -10,6 +10,7 @@ class TuiSpec extends AnyWordSpec with Matchers{
 
   "A Mill Tui" should{
     val controller = new Controller(new Board, Vector())
+    controller.create_new_Players("PlayerOne", "PlayerTwo")
     val tui = new Tui(controller)
     "create a new board on input 'n'" in{
       tui.processInputLine("n")
@@ -22,14 +23,15 @@ class TuiSpec extends AnyWordSpec with Matchers{
       tui.processInputLine("h")
     }
     "should provide any other input" in {
-      tui.processInputLine("_")
+      tui.processInputLine("*")
     }
 
     "should do nothing and leave loop in input 'q' in game mode" in {
       tui.processGameInputLine("q")
     }
-
-
+    "should print the help board on input 'h' in game mode" in {
+      tui.processGameInputLine("h")
+    }
 
     "should provide a welcome screen" in {
       val welcomeScreen =
@@ -111,14 +113,12 @@ class TuiSpec extends AnyWordSpec with Matchers{
     "should provide a message to show which player is playing with the amount of stones played" in {
       tui.currentPlayer = new Player("Your Name", 1, 9)
       val playerMsg = "\nYour Name it is your turn Place one stone on a specific coordinate (1 of 9):"
-      tui.playerInitTurns() should be(playerMsg)
+      tui.playerGamePhaseOneTurns() should be(playerMsg)
     }
     "should update the board with new stones" in {
       val emptyBoard = new Board
       val filledPlayerOneBoard = emptyBoard.update_board(0, 0, 1)
       val filledPlayerTwoBoard = emptyBoard.update_board(0, 0, 2)
-
-
 
       val emptyBoardString =
         "               O----------------------------O----------------------------O\n" +
@@ -183,7 +183,6 @@ class TuiSpec extends AnyWordSpec with Matchers{
       tui.updateBoard(emptyBoard) should be(emptyBoardString)
       tui.updateBoard(filledPlayerOneBoard) should be(filledPlayerOneBoardString)
       tui.updateBoard(filledPlayerTwoBoard) should be(filledPlayerTwoBoardString)
-
     }
   }
 }
