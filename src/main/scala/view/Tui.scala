@@ -1,7 +1,7 @@
 package view
 
 import controller.{Controller, GameStatus}
-import model.{Board, Player, Stone}
+import model.{Board, Player, Stone, MaybeInput}
 import util.Observer
 
 import scala.io.StdIn.readLine
@@ -40,29 +40,22 @@ class Tui(controller: Controller) extends Observer{
         }
       }
       case _ => {
-        if(input forall Character.isDigit) {
-          input.toList.filter(c => c != ' ').map(c => c.toString.toInt) match {
-            case rect_num :: pos_num :: Nil => {
-              val validCoordinates = controller.checkInputCoordinates(rect_num, pos_num)
-              if (validCoordinates) {
-                if (controller.gameStatus == GameStatus.GPONE) {
-                  val validStone = controller.checkStoneSet(rect_num - 1, pos_num - 1)
-                  if (!validStone) {
-                    controller.setStone((rect_num - 1), (pos_num - 1), currentPlayer.color)
-                  }
-                  else {
-                    println(stoneWarning)
-                  }
-                }
-              }
-              else {
-                println(coordinationWarning)
-              }
+        val verifiedInput = MaybeInput(Some(input))
+          .validLength
+          .validInt
+          .validCoordinates
+          .validateStone(controller.board)
+          .input
+        if(verifiedInput != None){
+          verifiedInput match {
+            case Some(data: List[Int]) => {
+              controller.setStone((data(0) - 1), (data(1) - 1), currentPlayer.color)
             }
+            case _ => println("Unknown data type")
           }
         }
         else{
-          println("No valid input. Please try again!")
+          println("Invalid")
         }
       }
     }
@@ -114,7 +107,7 @@ class Tui(controller: Controller) extends Observer{
 
   def playerInitTurns(): String ={
     val playerTurnString = s"\n${currentPlayer.name} it is your turn Place one stone on a specific coordinate " + "" +
-      s"(${controller.amountOfPlayerStones(currentPlayer.color) + 1} of ${currentPlayer.MAX_STONES}):"
+      s"(${controller.amountOfPlayerStones(currentPlayer.color) + 1} of ${currentPlayer.MAX_STONE}):"
     playerTurnString
   }
 
@@ -189,12 +182,31 @@ class Tui(controller: Controller) extends Observer{
   }
   override def update: Unit = {
     println(updateBoard(controller.board))
-    if (currentPlayer.color == 0) { currentPlayer = controller.players(0) }
-    else { currentPlayer = changePlayer(controller.players) }
+    if (currentPlayer.color == 0) {
+      currentPlayer = controller.players(0)
+      println(playerInitTurns)
+    }
+    if (controller.newMill) {
+      println(s"New Mill on Board\n${currentPlayer.name} what stone do you want to remove?")
+      val in = readLine()
+      in match {
+        case _ => in.toList.filter(c => c != ' ').map(c => c.toString.toInt) match {
+          case rect_num :: pos_num :: Nil => {
+            println(controller.remove_stone(rect_num - 1, pos_num - 1, currentPlayer.color))
+          }
+        }
+      }
+    }
+  }
 
-    if(controller.amountOfPlayerStones(1) == 9 && controller.amountOfPlayerStones(2) == 9) {
+  override def updatePlayer: Unit = {
+    currentPlayer = changePlayer(controller.players)
+    if (controller.amountOfPlayerStones(1) == controller.players(0).MAX_STONE &&
+      controller.amountOfPlayerStones(2) == controller.players(1).MAX_STONE) {
       println(gamePhaseTwoBegin())
     }
-    else { println(playerInitTurns) }
+    else {
+      println(playerInitTurns)
+    }
   }
 }

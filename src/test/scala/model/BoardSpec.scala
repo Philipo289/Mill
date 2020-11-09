@@ -48,15 +48,12 @@ class BoardSpec extends AnyWordSpec with Matchers{
         board.amount_of_played_stones(0) should be(24)
         changedBoard.amount_of_played_stones(1) should be(1)
       }
-      "color_matcher return true" in {
-        val color_in = Stone(1)
-        val color_actually = 1
-        board.color_matcher(color_in, color_actually) should be(1)
-      }
-      "color_matcher return false" in {
-        val color_in = Stone(1)
-        val color_actually = 2
-        board.color_matcher(color_in, color_actually) should be(0)
+      "check if player achieved a 'mill'" in {
+        //board.check_board_for_mill(1) should be(false)
+        var millBoard = board.update_board(0, 0, 1)
+        millBoard = millBoard.update_board(0, 1, 1)
+        millBoard = millBoard.update_board(0, 2, 1)
+        //millBoard.check_board_for_mill(1) should be(true)
       }
     }
   }
