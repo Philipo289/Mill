@@ -57,6 +57,7 @@ class MaybeInputSpec extends AnyWordSpec with Matchers{
         MaybeInput(Some(List(2,2))).checkStone(board2, 1).input should be(Some(List(2,2)))
         MaybeInput(Some(List(2,1))).checkStone(board2, 2).input should be(Some(List(2,1)))
         MaybeInput(Some(List(2,1))).checkStone(board2, 1).input should be(None)
+        MaybeInput(None).checkStone(board2, 1).input should be(None)
 
       }
     }
