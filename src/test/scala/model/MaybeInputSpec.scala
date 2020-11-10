@@ -43,7 +43,9 @@ class MaybeInputSpec extends AnyWordSpec with Matchers{
         MaybeInput(Some(List(1,3))).findValidNeighbors(board2).input should be(Some(List((1,2), (1,4))))
         MaybeInput(Some(List(2,3))).findValidNeighbors(board2).input should be(Some(List((2,4))))
         MaybeInput(Some(List(3,2))).findValidNeighbors(board2).input should be(Some(List((3,1), (3,3))))
-        MaybeInput(Some(List(2,2))).findValidNeighbors(board).input should be(Some(List((2,1),(2,3), (3,2), (1,2))))
+        MaybeInput(Some(List(2,2))).findValidNeighbors(board2).input should be(Some(List((2,3), (3,2), (1,2))))
+        MaybeInput(Some(List(1,9))).findValidNeighbors(board2).input should be(None)
+        MaybeInput(None).findValidNeighbors(board2).input should be(None)
       }
       "return the possible moves in the rectangle" in{
         MaybeInput(Some(List(1,1))).legal_moves_in_rectangle(List(0,0)) should be (List((0,7), (0,1)))
