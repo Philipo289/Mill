@@ -8,6 +8,8 @@ class MaybeInputSpec extends AnyWordSpec with Matchers{
   "An Input" when {
     "new" should {
       val board = new Board
+      val board1= board.update_board(1, 1,1)
+      val board2= board1.update_board(1,0,2)
       val controller = new Controller(board, Vector())
       "check if the input length is two" in {
         MaybeInput(Some("IN")).validLength.input should be(Some("IN"))
@@ -36,17 +38,24 @@ class MaybeInputSpec extends AnyWordSpec with Matchers{
         MaybeInput(None).validateStone(controller.board).input should be(None)
       }
       "return the possible moves to neighbor places on board" in{
-        MaybeInput(Some(List(1,1))).findValidNeighbors(controller.board).input should be(Some(List((0,7), (0,1))))
-        MaybeInput(Some(List(1,3))).findValidNeighbors(controller.board).input should be(Some(List((0,1), (0,3))))
-        MaybeInput(Some(List(2,7))).findValidNeighbors(controller.board).input should be(Some(List((1,5), (1,7))))
-        MaybeInput(Some(List(3,2))).findValidNeighbors(controller.board).input should be(Some(List((2,0), (2,2), (1,1))))
-        MaybeInput(Some(List(2,2))).findValidNeighbors(controller.board).input should be(Some(List((1,0),(1,2), (2,1), (0,1))))
+
+        MaybeInput(Some(List(1,1))).findValidNeighbors(board2).input should be(Some(List((1,8), (1,2))))
+        MaybeInput(Some(List(1,3))).findValidNeighbors(board2).input should be(Some(List((1,2), (1,4))))
+        MaybeInput(Some(List(2,3))).findValidNeighbors(board2).input should be(Some(List((2,4))))
+        MaybeInput(Some(List(3,2))).findValidNeighbors(board2).input should be(Some(List((3,1), (3,3))))
+        MaybeInput(Some(List(2,2))).findValidNeighbors(board).input should be(Some(List((2,1),(2,3), (3,2), (1,2))))
       }
       "return the possible moves in the rectangle" in{
         MaybeInput(Some(List(1,1))).legal_moves_in_rectangle(List(0,0)) should be (List((0,7), (0,1)))
       }
       "return the possible moves between the rectangles" in{
         MaybeInput(Some(List(2,2))).legal_moves_between_rectangles(List(1,1)) should be (List((2,1), (0,1)))
+      }
+      "return stone positions, when stone is of player" in{
+        MaybeInput(Some(List(2,2))).checkStone(board2, 1).input should be(Some(List(2,2)))
+        MaybeInput(Some(List(2,1))).checkStone(board2, 2).input should be(Some(List(2,1)))
+        MaybeInput(Some(List(2,1))).checkStone(board2, 1).input should be(None)
+
       }
     }
   }

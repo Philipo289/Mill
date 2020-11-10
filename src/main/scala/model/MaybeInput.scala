@@ -38,14 +38,16 @@ case class MaybeInput(input:Option[Any]){
       val input = List(in.head-1, in(1)-1)
       if(list_corner.contains(input(1))){
         val possible_moves_rectangle = legal_moves_in_rectangle(input)
-        val legal_moves = possible_moves_rectangle.filter(move => !(board.check_stone_Set(move._1, move._2)))
-        copy(Some(legal_moves))
+        val legal_moves_board = possible_moves_rectangle.filter(move => !(board.check_stone_Set(move._1, move._2)))
+        val legal_moves_input = legal_moves_board.map(move => (move._1+1, move._2+1))
+        copy(Some(legal_moves_input))
       }
       else if(list_middle.contains(input(1))){
         val possible_moves_rectangle = legal_moves_in_rectangle(input)
         val possible_moves_bt_rectangle = legal_moves_between_rectangles(input)
-        val legal_moves = possible_moves_rectangle.filter(move => !board.check_stone_Set(move._1, move._2)) ++ possible_moves_bt_rectangle.filter(move => !(board.check_stone_Set(move._1, move._2)))
-        copy(Some(legal_moves))
+        val legal_moves_board = possible_moves_rectangle.filter(move => !board.check_stone_Set(move._1, move._2)) ++ possible_moves_bt_rectangle.filter(move => !(board.check_stone_Set(move._1, move._2)))
+        val legal_moves_input = legal_moves_board.map(move => (move._1+1, move._2+1))
+        copy(Some(legal_moves_input))
       }
       else {
         copy(None)
